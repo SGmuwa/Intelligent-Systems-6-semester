@@ -1,17 +1,17 @@
-#include <locale.h>
+п»ї#include <locale.h>
 #include <stdio.h>
 #include <limits.h>
 #include "UserInterface.h"
 
 /*
-Вызов основной программы
-int argc - количество аргументов к программе.
-char * argv[] - указатель на массив аргументов к программе.
-Возвращает: код ошибки.
+Р’С‹Р·РѕРІ РѕСЃРЅРѕРІРЅРѕР№ РїСЂРѕРіСЂР°РјРјС‹
+int argc - РєРѕР»РёС‡РµСЃС‚РІРѕ Р°СЂРіСѓРјРµРЅС‚РѕРІ Рє РїСЂРѕРіСЂР°РјРјРµ.
+char * argv[] - СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РјР°СЃСЃРёРІ Р°СЂРіСѓРјРµРЅС‚РѕРІ Рє РїСЂРѕРіСЂР°РјРјРµ.
+Р’РѕР·РІСЂР°С‰Р°РµС‚: РєРѕРґ РѕС€РёР±РєРё.
 */
 int main(int argc, char * argv[]) {
 	setlocale(LC_ALL, "rus");
-	size_t countSets = UserInterface_GetUnsignedLongLongIntLimit("Количество множетсв: ", 0u, SIZE_MAX - 1);
+	size_t countSets = UserInterface_GetUnsignedLongLongIntLimit("РљРѕР»РёС‡РµСЃС‚РІРѕ РјРЅРѕР¶РµС‚СЃРІ: ", 0u, SIZE_MAX - 1);
 	float * sets = (float*)malloc(countSets * sizeof(float));
 	char buffer[256];
 	for (size_t i = 0; i < countSets; i++) {
@@ -20,11 +20,11 @@ int main(int argc, char * argv[]) {
 #else
 		sprintf(buffer, 
 #endif
-			"Множество %z =", i);
+			"РњРЅРѕР¶РµСЃС‚РІРѕ %z =", i);
 		sets[i] = UserInterface_GetFloatLimit(buffer, 0.0f, 1.0f);
 	}
 	float result = 0.0;
-	switch (UserInterface_GetChek("0 - пересечение\n1 - объединение", 1))
+	switch (UserInterface_GetChek("0 - РїРµСЂРµСЃРµС‡РµРЅРёРµ\n1 - РѕР±СЉРµРґРёРЅРµРЅРёРµ", 1))
 	{
 	case 1:
 		for (size_t i = 0; i < countSets; i++)
