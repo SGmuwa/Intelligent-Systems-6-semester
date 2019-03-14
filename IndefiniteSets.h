@@ -1,9 +1,11 @@
 ﻿
 #ifndef IndefiniteSets_FLOAT
+// Тип данных для хранения значений с плавающей запятой.
 #define IndefiniteSets_FLOAT double
 #endif // !IndefiniteSets_FLOAT
 
 #ifndef IndefiniteSets_CHAR
+// Тип данных для хранения символов.
 #define IndefiniteSets_CHAR char
 #endif // !IndefiniteSets_CHAR
 
