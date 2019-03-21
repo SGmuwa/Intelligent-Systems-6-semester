@@ -85,8 +85,20 @@ struct IndefiniteSets_CharacteristicArray {
 // Состояние системы нечётких множеств.
 struct IndefiniteSets_State
 {
-	// Массив нечётких множеств.
-	struct IndefiniteSets_CharacteristicArray characteristics;
-	// Правила нечётких множеств.
-	struct IndefiniteSets_RuleArray rules;
+	/* Массив нечётких множеств.
+	Указатель, чтобы можно было менять состояние. */
+	struct IndefiniteSets_CharacteristicArray * characteristics;
+	/* Правила нечётких множеств.
+	Указатель, чтобы можно было менять состояние. */
+	struct IndefiniteSets_RuleArray * rules;
+};
+
+// Хранит реализацию работы с нечёткими множ
+struct IndefiniteSets_StateClass
+{
+	struct IndefiniteSets_State state;
+	/*
+	Добавление характеристику в систему.
+	*/
+	int (*Add)(struct IndefiniteSets_State state, struct IndefiniteSets_Characteristic add);
 };

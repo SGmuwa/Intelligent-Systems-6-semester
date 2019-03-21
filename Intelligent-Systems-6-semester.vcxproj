@@ -116,6 +116,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="IndefiniteSets.h" />
+    <ClInclude Include="IndefiniteSets_Test.h" />
+    <ClInclude Include="Test.h" />
     <ClInclude Include="UserInterface.h" />
   </ItemGroup>
   <ItemGroup>
