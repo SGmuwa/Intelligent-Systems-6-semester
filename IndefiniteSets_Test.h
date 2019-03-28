@@ -50,7 +50,7 @@ void IndefiniteSets_Test_teacher(FILE * out) {
 	IndefiniteSets_addTermMalloc(characteristic,
 		"Большой", "0,0/50,0 0,0/150,0 0,5/250,0 1,0/350,0");
 
-	state.addCharacteristic(state, "Потребительская стоимость яблока");
+	state.addCharacteristic(state, "Потребительская стоимость яблока", 10, 40);
 	state.getCharacteristic(state, "Потребительская стоимость яблока").addTermMalloc(
 		"Низкая", "1,0/10,0 0,8/20,0 0,1/30,0 0,0/40,0");
 	state.getCharacteristic(state, "Потребительская стоимость яблока").addTermMalloc(
