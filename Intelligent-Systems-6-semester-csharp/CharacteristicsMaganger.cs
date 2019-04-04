@@ -23,5 +23,11 @@ namespace Intelligent_Systems_6_semester_csharp
         public Characteristic this[string name]
             => Characteristics.Find((Characteristic c) => name.Equals(c.Name));
 
+        public override string ToString()
+        {
+            return "{ \"Characteristics\":" +
+                Characteristics.ToString(", ") +
+                "\" }";
+        }
     }
 }

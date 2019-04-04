@@ -57,6 +57,8 @@ namespace Intelligent_Systems_6_semester_csharp
                 throw new ArgumentNullException();
             if (ranges.Length % 2 != 0 || nameTerma.Length == 0)
                 throw new ArgumentException();
+            if (Terms.Find((Terma t) => nameTerma.Equals(t.Name)) != null)
+                throw new ArgumentException("Имя уже занято");
             Terma toAdd = new Terma(nameTerma, this);
             double percent;
             double valueCharacteristic;
@@ -86,6 +88,12 @@ namespace Intelligent_Systems_6_semester_csharp
         /// <param name="nameNew">Имя новой термы.</param>
         public void Add(LogicalFunctions logical, string nameFrom, string nameNew)
         {
+            if (nameNew == null || nameFrom == null)
+                throw new ArgumentNullException("Имена не могут быть null.");
+            if (nameNew.Length == 0 || nameFrom.Length == 0)
+                throw new ArgumentException("Имена должны быть не пустыми.");
+            if ((Terms.Find((Terma t) => nameFrom.Equals(t.Name)) == null))
+                throw new ArgumentException("Элемент \"" + nameFrom + "\" не найден.");
             Terma toAdd = new Terma(nameNew, this);
             switch(logical)
             {
@@ -106,5 +114,18 @@ namespace Intelligent_Systems_6_semester_csharp
 
         public Terma this[string name]
             => Terms.Find((Terma t) => name.Equals(t.Name));
+
+        public override string ToString()
+        {
+            return "{ \"Name\":\"" +
+                Name +
+                "\", \"Min\":\"" +
+                Min +
+                "\", \"Max\":\"" +
+                Max +
+                "\", \"Terms:\":" +
+                Terms.ToString(", ") +
+                "}";
+        }
     }
 }

@@ -89,8 +89,8 @@ namespace UnitTestProject1
 
             Assert.AreEqual(2, state.Characteristics.Length);
             Assert.AreEqual(3, state.Rules.Length);
-            try { price.Add("?", 1, 0); Assert.Fail("Удалось вне диапазона."); } catch { }
-            try { price.Add("?", 2, 20); Assert.Fail("Удалось вне диапазона проценты."); } catch { }
+            try { price.Add("?", 1, 0); Assert.Fail("Удалось вне диапазона."); } catch(Exception e) { if (e is AssertFailedException) throw e; }
+            try { price.Add("?", 2, 20); Assert.Fail("Удалось вне диапазона проценты."); } catch (Exception e) { if (e is AssertFailedException) throw e; }
             try
             {
                 price.Add(
@@ -100,17 +100,7 @@ namespace UnitTestProject1
                     0.1, 40);
                 Assert.Fail("Получилось добавить одинаковую по имени.");
             }
-            catch { }
-            try
-            {
-                price.Add(
-                    "qewjfwpje", 0, 10,
-                    0.4, 20,
-                    0.7, 30,
-                    0.1, 40);
-                Assert.Fail("Получилось добавить одинаковую по содержанию.");
-            }
-            catch { }
+            catch (Exception e) { if (e is AssertFailedException) throw e; }
 
 
             double[,] RN1M1assert = new double[,] {
@@ -121,7 +111,7 @@ namespace UnitTestProject1
             double[,] RN1M1 = state.Relation(weight["Малый"], price["Низкая"]);
             CollectionAssert.AreEqual(RN1M1assert, RN1M1);
 
-            state.Characteristics["Вес яблока"].Add(LogicalFunctions.NOT, "Низкая", "Очень высокая");
+            state.Characteristics["Потребительская стоимость яблока"].Add(LogicalFunctions.NOT, "Низкая", "Очень высокая");
 
             Console.WriteLine(state);
         }

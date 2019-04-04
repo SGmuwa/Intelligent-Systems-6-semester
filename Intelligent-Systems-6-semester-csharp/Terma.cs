@@ -26,6 +26,7 @@ namespace Intelligent_Systems_6_semester_csharp
 
         public string Name { get; }
         public Characteristic Perent { get; }
+        public int Length => list.Count;
 
         public void Add(double percent, double characteristicValue)
             => list.Add(new PercentAndCharacteristicvalue(percent, characteristicValue));

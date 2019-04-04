@@ -12,4 +12,12 @@ namespace Intelligent_Systems_6_semester_csharp
         {
         }
     }
+
+    public static class PrintArray
+    {
+        public static string ToString<T>(this IEnumerable<T> l, string separator)
+        {
+            return "[" + string.Join(separator, l.Select(i => i.ToString()).ToArray()) + "]";
+        }
+    }
 }
