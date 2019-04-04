@@ -1,4 +1,5 @@
 ﻿using System;
+using Intelligent_Systems_6_semester_csharp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTestProject1
@@ -86,8 +87,8 @@ namespace UnitTestProject1
             state.Rules.Add(weight["Средний"], price["Высокая"]);
             state.Rules.Add(weight["Большой"], price["Средняя"]);
 
-            Assert.AreEqual(2, state.Characteristics.length);
-            Assert.AreEqual(3, state.Rules.length);
+            Assert.AreEqual(2, state.Characteristics.Length);
+            Assert.AreEqual(3, state.Rules.Length);
             try { price.Add("?", 1, 0); Assert.Fail("Удалось вне диапазона."); } catch { }
             try { price.Add("?", 2, 20); Assert.Fail("Удалось вне диапазона проценты."); } catch { }
             try
@@ -120,8 +121,9 @@ namespace UnitTestProject1
             double[,] RN1M1 = state.Relation(weight["Малый"], price["Низкая"]);
             CollectionAssert.AreEqual(RN1M1assert, RN1M1);
 
-            state.Characteristics.Add(LogicalFunctions.Not, state.Characteristics["Вес яблока"], "Очень высокая");
+            state.Characteristics["Вес яблока"].Add(LogicalFunctions.NOT, "Низкая", "Очень высокая");
 
+            Console.WriteLine(state);
         }
     }
 }
