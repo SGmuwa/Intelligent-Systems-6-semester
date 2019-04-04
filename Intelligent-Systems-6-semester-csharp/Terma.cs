@@ -9,7 +9,8 @@ namespace Intelligent_Systems_6_semester_csharp
     /// </summary>
     public class Terma : IEnumerable
     {
-        protected List<PercentAndCharacteristicvalue> list;
+        protected List<PercentAndCharacteristicvalue> list
+            = new List<PercentAndCharacteristicvalue>();
         /// <summary>
         /// Создание термы.
         /// </summary>

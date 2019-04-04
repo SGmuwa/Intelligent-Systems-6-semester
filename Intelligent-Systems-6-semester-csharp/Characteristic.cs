@@ -11,7 +11,8 @@ namespace Intelligent_Systems_6_semester_csharp
         /// <summary>
         /// Список терм, которые описывают характеристику.
         /// </summary>
-        protected List<Terma> Terms;
+        protected List<Terma> Terms
+            = new List<Terma>();
         /// <summary>
         /// Создание новой характеристики.
         /// </summary>
