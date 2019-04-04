@@ -20,5 +20,8 @@ namespace Intelligent_Systems_6_semester_csharp
             Characteristics.Add(toAdd);
         }
 
+        public Characteristic this[string name]
+            => Characteristics.Find((Characteristic c) => name.Equals(c.Name));
+
     }
 }

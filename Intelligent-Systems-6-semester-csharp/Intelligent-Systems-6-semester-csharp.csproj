@@ -50,6 +50,7 @@
     <Compile Include="PercentAndCharacteristicvalue.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rule.cs" />
     <Compile Include="RulesManager.cs" />
     <Compile Include="Terma.cs" />
   </ItemGroup>

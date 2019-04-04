@@ -2,7 +2,7 @@
 
 namespace Intelligent_Systems_6_semester_csharp
 {
-    public class PercentAndCharacteristicvalue
+    public struct PercentAndCharacteristicvalue
     {
         public PercentAndCharacteristicvalue(double percent, double characteristicValue)
         {

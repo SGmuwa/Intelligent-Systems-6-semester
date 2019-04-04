@@ -56,7 +56,7 @@ namespace Intelligent_Systems_6_semester_csharp
                 throw new ArgumentNullException();
             if (ranges.Length % 2 != 0 || nameTerma.Length == 0)
                 throw new ArgumentException();
-            Terma toAdd = new Terma(nameTerma);
+            Terma toAdd = new Terma(nameTerma, this);
             double percent;
             double valueCharacteristic;
             for(int i = 0; i < ranges.Length; i++)
@@ -76,5 +76,34 @@ namespace Intelligent_Systems_6_semester_csharp
             else
                 throw new ArgumentException();
         }
+
+        /// <summary>
+        /// Добавление новой термы на основе предыдущей
+        /// </summary>
+        /// <param name="logical">Логическая операция над термой.</param>
+        /// <param name="nameFrom">Имя предыдущей термы.</param>
+        /// <param name="nameNew">Имя новой термы.</param>
+        public void Add(LogicalFunctions logical, string nameFrom, string nameNew)
+        {
+            Terma toAdd = new Terma(nameNew, this);
+            switch(logical)
+            {
+                case LogicalFunctions.NOT:
+                    foreach (PercentAndCharacteristicvalue pacv in this[nameFrom])
+                    {
+                        toAdd.Add(1.0 - pacv.Percent, pacv.CharacteristicValue);
+                    }
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+            if (!Terms.Contains(toAdd))
+                Terms.Add(toAdd);
+            else
+                throw new ArgumentException();
+        }
+
+        public Terma this[string name]
+            => Terms.Find((Terma t) => name.Equals(t.Name));
     }
 }
