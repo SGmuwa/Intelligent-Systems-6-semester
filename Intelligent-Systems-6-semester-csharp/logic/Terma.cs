@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Intelligent_Systems_6_semester_csharp
+namespace lab1
 {
     /// <summary>
     /// Терма характеристики.

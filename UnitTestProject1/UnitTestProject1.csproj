@@ -56,9 +56,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Intelligent-Systems-6-semester-csharp\Intelligent-Systems-6-semester-csharp.csproj">
+    <ProjectReference Include="..\Intelligent-Systems-6-semester-csharp\lab1.csproj">
       <Project>{357ce44a-3882-4a76-9148-09c808217fe8}</Project>
-      <Name>Intelligent-Systems-6-semester-csharp</Name>
+      <Name>lab1</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

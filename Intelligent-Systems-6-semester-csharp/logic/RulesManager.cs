@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Intelligent_Systems_6_semester_csharp
+namespace lab1
 {
     public class RulesManager
     {

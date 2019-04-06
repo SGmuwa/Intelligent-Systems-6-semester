@@ -1,5 +1,5 @@
 ﻿using System;
-using Intelligent_Systems_6_semester_csharp;
+using lab1;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTestProject1

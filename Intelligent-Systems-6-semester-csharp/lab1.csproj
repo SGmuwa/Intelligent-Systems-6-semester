@@ -43,16 +43,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Characteristic.cs" />
-    <Compile Include="CharacteristicsMaganger.cs" />
-    <Compile Include="IndefiniteSets.cs" />
-    <Compile Include="LogicalFunctions.cs" />
-    <Compile Include="PercentAndCharacteristicvalue.cs" />
+    <Compile Include="logic\Characteristic.cs" />
+    <Compile Include="logic\CharacteristicsMaganger.cs" />
+    <Compile Include="logic\IndefiniteSets.cs" />
+    <Compile Include="logic\LogicalFunctions.cs" />
+    <Compile Include="logic\PercentAndCharacteristicvalue.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rule.cs" />
-    <Compile Include="RulesManager.cs" />
-    <Compile Include="Terma.cs" />
+    <Compile Include="logic\Rule.cs" />
+    <Compile Include="logic\RulesManager.cs" />
+    <Compile Include="logic\Terma.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

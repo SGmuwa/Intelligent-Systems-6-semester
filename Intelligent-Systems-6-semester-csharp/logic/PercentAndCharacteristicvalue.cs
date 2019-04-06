@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Intelligent_Systems_6_semester_csharp
+namespace lab1
 {
     public struct PercentAndCharacteristicvalue
     {
