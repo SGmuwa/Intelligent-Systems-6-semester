@@ -11,6 +11,8 @@ namespace lab1
 
         public int Length => Rules.Count;
 
+        public Rule this[int index] => Rules[index];
+
         public void Add(Terma termaIf, Terma termaThen)
         {
             Rule toAdd = new Rule(termaIf, termaThen);

@@ -27,9 +27,6 @@ namespace lab1.visual
             ConsoleColor defaultColorB = Console.BackgroundColor;
             do
             {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine(Serial(sets));
-                Console.ForegroundColor = defaultColorF;
                 string input = Console.ReadLine();
                 if (input == null || input.Length < 1)
                 {
@@ -55,6 +52,14 @@ namespace lab1.visual
                         case "addrule":
                             AddRule();
                             break;
+                        case "relation":
+                            Relation();
+                            break;
+                        case "show":
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.WriteLine(Serial(sets));
+                            Console.ForegroundColor = defaultColorF;
+                            break;
                         case "help":
                             Console.WriteLine(Properties.Resources.help);
                             break;
@@ -72,6 +77,13 @@ namespace lab1.visual
                     Console.ForegroundColor = defaultColorF;
                 }
             } while (true);
+        }
+
+        private void Relation()
+        {
+            Console.WriteLine(
+            sets.Rules[int.Parse(lineSplit[1])].RelationStr()
+            );
         }
 
         private string Serial(object input)

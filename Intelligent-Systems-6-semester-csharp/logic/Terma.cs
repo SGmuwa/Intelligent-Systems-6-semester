@@ -7,7 +7,7 @@ namespace lab1
     /// <summary>
     /// Терма характеристики.
     /// </summary>
-    public class Terma : IEnumerable
+    public class Terma : IEnumerable<PercentAndCharacteristicvalue>
     {
         protected List<PercentAndCharacteristicvalue> list
             = new List<PercentAndCharacteristicvalue>();
@@ -31,7 +31,7 @@ namespace lab1
         public void Add(double percent, double characteristicValue)
             => list.Add(new PercentAndCharacteristicvalue(percent, characteristicValue));
 
-        public IEnumerator GetEnumerator()
+        public IEnumerator<PercentAndCharacteristicvalue> GetEnumerator()
         {
             return list.GetEnumerator();
         }
@@ -43,6 +43,11 @@ namespace lab1
                 "\", \"list\":\"" +
                 list.ToString(", ") +
                 "\" }";
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable<PercentAndCharacteristicvalue>)list).GetEnumerator();
         }
     }
 }
