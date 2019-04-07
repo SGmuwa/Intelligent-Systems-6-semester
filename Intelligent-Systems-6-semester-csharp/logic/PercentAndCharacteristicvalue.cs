@@ -19,5 +19,14 @@ namespace lab1
 
         public double Percent { get; }
         public double CharacteristicValue { get; }
+
+        public override string ToString()
+        {
+            return ("{\"Percent\":\"" +
+                Percent.ToString().Replace(',', '.') +
+                "\", \"CharacteristicValue\":\"" +
+                CharacteristicValue.ToString().Replace(',', '.') +
+                "\" }");
+        }
     }
 }

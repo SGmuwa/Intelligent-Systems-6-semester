@@ -20,5 +20,12 @@ namespace lab1
                 throw new ArgumentException();
             Rules.Add(toAdd);
         }
+
+        public override string ToString()
+        {
+            return "{ \"Rules\":" +
+                Rules.ToString(", ") +
+                " }";
+        }
     }
 }

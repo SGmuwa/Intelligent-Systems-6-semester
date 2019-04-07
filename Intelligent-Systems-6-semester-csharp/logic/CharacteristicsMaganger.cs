@@ -27,7 +27,7 @@ namespace lab1
         {
             return "{ \"Characteristics\":" +
                 Characteristics.ToString(", ") +
-                "\" }";
+                " }";
         }
     }
 }

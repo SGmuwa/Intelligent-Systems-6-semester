@@ -10,5 +10,11 @@
             this.termaIf = termaIf;
             this.termaThen = termaThen;
         }
+
+        public override string ToString()
+        {
+            return "if " + termaIf.Parent.Name + "." + termaIf.Name +
+                " then " + termaThen.Parent.Name + "." + termaThen.Name;
+        }
     }
 }

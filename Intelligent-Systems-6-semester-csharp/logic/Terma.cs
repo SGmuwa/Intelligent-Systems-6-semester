@@ -21,11 +21,11 @@ namespace lab1
             if (name?.Length == 0)
                 throw new ArgumentException();
             Name = name ?? throw new ArgumentException();
-            Perent = characteristic ?? throw new ArgumentNullException();
+            Parent = characteristic ?? throw new ArgumentNullException();
         }
 
         public string Name { get; }
-        public Characteristic Perent { get; }
+        public Characteristic Parent { get; }
         public int Length => list.Count;
 
         public void Add(double percent, double characteristicValue)
@@ -34,6 +34,15 @@ namespace lab1
         public IEnumerator GetEnumerator()
         {
             return list.GetEnumerator();
+        }
+
+        public override string ToString()
+        {
+            return "{\"Name\":\"" +
+                Name +
+                "\", \"list\":\"" +
+                list.ToString(", ") +
+                "\" }";
         }
     }
 }

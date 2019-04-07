@@ -31,7 +31,7 @@ namespace lab1
 
         public override string ToString()
         {
-            return "{ \"Characteristics\":" +
+            return "{ \"Characteristics\":\"" +
                 Characteristics +
                 "\", \"Rules\":\"" +
                 Rules +

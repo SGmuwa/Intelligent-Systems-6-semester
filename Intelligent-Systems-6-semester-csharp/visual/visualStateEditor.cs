@@ -17,8 +17,7 @@ namespace lab1.visual
         {
             throw new Exception("[CTRL+BREAK] Good bye.");
         }
-
-        private string line = null;
+        
         private string[] lineSplit = null;
         private IndefiniteSets sets = null;
 
@@ -29,7 +28,7 @@ namespace lab1.visual
             do
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine(sets);
+                Console.WriteLine(Serial(sets));
                 Console.ForegroundColor = defaultColorF;
                 string input = Console.ReadLine();
                 if (input == null || input.Length < 1)
@@ -53,6 +52,9 @@ namespace lab1.visual
                         case "addterm":
                             AddTerm();
                             break;
+                        case "addrule":
+                            AddRule();
+                            break;
                         case "help":
                             Console.WriteLine(Properties.Resources.help);
                             break;
@@ -70,6 +72,51 @@ namespace lab1.visual
                     Console.ForegroundColor = defaultColorF;
                 }
             } while (true);
+        }
+
+        private string Serial(object input)
+        {
+            if (input == null)
+                return null;
+            StringBuilder stringBuilder = new StringBuilder();
+            int tab = 0;
+            foreach(char a in input.ToString())
+            {
+                switch(a)
+                {
+                    case '[':
+                    case '{':
+                        stringBuilder.Append("\n");
+                        stringBuilder.Append(new String('\t', tab));
+                        tab++;
+                        stringBuilder.Append(a + "\n");
+                        stringBuilder.Append(new String('\t', tab));
+                        break;
+                    case ']':
+                    case '}':
+                        tab--;
+                        stringBuilder.Append("\n");
+                        stringBuilder.Append(new String('\t', tab));
+                        stringBuilder.Append(a);
+                        stringBuilder.Append("\n");
+                        stringBuilder.Append(new String('\t', tab));
+                        break;
+                    case ',':
+                        stringBuilder.Append(",\n");
+                        stringBuilder.Append(new String('\t', tab));
+                        break;
+                    default:
+                        stringBuilder.Append(a);
+                        break;
+                }
+            }
+            return stringBuilder.ToString();
+        }
+
+        private void AddRule()
+        {
+            sets.Rules.Add(sets.Characteristics[lineSplit[1]][lineSplit[2]],
+                sets.Characteristics[lineSplit[3]][lineSplit[4]]);
         }
 
         private void AddTerm()
