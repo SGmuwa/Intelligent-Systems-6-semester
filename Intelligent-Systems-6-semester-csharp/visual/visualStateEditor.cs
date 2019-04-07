@@ -60,6 +60,9 @@ namespace lab1.visual
                             Console.WriteLine(Serial(sets));
                             Console.ForegroundColor = defaultColorF;
                             break;
+                        case "addrulelogic":
+                            AddRuleLogic();
+                            break;
                         case "help":
                             Console.WriteLine(Properties.Resources.help);
                             break;
@@ -77,6 +80,14 @@ namespace lab1.visual
                     Console.ForegroundColor = defaultColorF;
                 }
             } while (true);
+        }
+
+        private void AddRuleLogic()
+        {
+            sets.Characteristics[lineSplit[2]].Add(
+                (LogicalFunctions)Enum.Parse(typeof(LogicalFunctions), lineSplit[1]),
+                lineSplit[3],
+                lineSplit[4]);
         }
 
         private void Relation()

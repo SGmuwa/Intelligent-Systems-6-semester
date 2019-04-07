@@ -108,7 +108,7 @@ namespace UnitTestProject1
                 { 0.5, 0.5, 0.1, 0 },
                 { 0, 0, 0, 0 },
                 { 0, 0, 0, 0 } };
-            double[,] RN1M1 = state.Relation(weight["Малый"], price["Низкая"]);
+            double[,] RN1M1 = new Rule(weight["Малый"], price["Низкая"]).Relation();
             CollectionAssert.AreEqual(RN1M1assert, RN1M1);
 
             state.Characteristics["Потребительская стоимость яблока"].Add(LogicalFunctions.NOT, "Низкая", "Очень высокая");

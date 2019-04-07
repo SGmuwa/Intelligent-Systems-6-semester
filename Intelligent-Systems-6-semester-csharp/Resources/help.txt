@@ -4,5 +4,6 @@ exit - Выход из программы.
 addCharacteristic string_name float_min float_max - Добавить характеристику.
 addTerm string_characteristricName string_termaName double_percent1 double_value1 double_percent2 double_value2 ... - Добавить терму к характеристике.
 addRule string_characteristicName string_termaName string_characteristicName string_termaName - Добавить правило.
+addRuleLogic string_function[NOT] string_characteristicName string_termaName string_newTermaName - Добавить новую терму по функциональной зависимости.
 relation int_rule_id - Посмотреть отношение.
 show - показать текущее состояние программы.

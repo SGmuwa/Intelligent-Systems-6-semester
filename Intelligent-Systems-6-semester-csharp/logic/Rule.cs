@@ -25,6 +25,12 @@ namespace lab1
         {
             StringBuilder sb = new StringBuilder();
             double[,] data = Relation();
+
+            sb.Append(termaThen.Parent.Name);
+            sb.Append('.');
+            sb.Append(termaThen.Name);
+            sb.Append(" \\/ \n");
+
             sb.Append(termaIf.Parent.Name);
             sb.Append('.');
             sb.Append(termaIf.Name);
