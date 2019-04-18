@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using lab1.logic.logic.lab2;
 
 namespace lab1
 {
     /// <summary>
     /// Класс представления характеристики.
     /// </summary>
-    public class Characteristic
+    public class Characteristic : IEnumerable<Terma>
     {
         /// <summary>
         /// Список терм, которые описывают характеристику.
@@ -40,6 +42,20 @@ namespace lab1
         /// Получение минимального задования характериситики.
         /// </summary>
         public float Min { get; }
+
+        internal ICollection<TermaValue> ValuesAt(double v)
+        {
+            List<TermaValue> output = new List<TermaValue>();
+            double percent;
+            foreach(Terma terma in this)
+            {
+                percent = terma.GetPercentAt(v);
+                if(percent > 0)
+
+            }
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Получение максимального задования характериситики.
         /// </summary>
@@ -127,5 +143,11 @@ namespace lab1
                 Terms.ToString(", ") +
                 "}";
         }
+
+        public IEnumerator<Terma> GetEnumerator() =>
+            ((IEnumerable<Terma>)Terms).GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() =>
+            ((IEnumerable<Terma>)Terms).GetEnumerator();
     }
 }

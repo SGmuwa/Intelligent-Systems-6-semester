@@ -53,11 +53,12 @@ namespace UnitTestProject1
             state.Rules.Add(x["Средний"], y["Средний"]);
             state.Rules.Add(x["Большой"], y["Большой"]);
 
-            ICollection<CharacteristicAndValue> outputCollection =
-                state.Rules.Call(MethodCall.Aggregation, x, 1.3);
-            CharacteristicAndValue[] expect = new CharacteristicAndValue[] { new CharacteristicAndValue(y, 163 / 12.1) };
+            ICollection<CharacteristicValue> outputCollection =
+                state.Rules.Call(MethodType.Aggregation, x, 1.3);
+            CharacteristicValue[] expect = new CharacteristicValue[]
+            { new CharacteristicValue(y, 163 / 12.1) };
             Assert.AreEqual(expect.Length, outputCollection.Count);
-            CharacteristicAndValue output = outputCollection.GetFirst();
+            CharacteristicValue output = outputCollection.GetFirst();
             Assert.AreEqual(expect[0].Characteristic, output.Characteristic);
             Assert.AreEqual(expect[0].Value, output.Value, 0.01);
 
