@@ -46,6 +46,7 @@
     <Compile Include="logic\Characteristic.cs" />
     <Compile Include="logic\CharacteristicsMaganger.cs" />
     <Compile Include="logic\IndefiniteSets.cs" />
+    <Compile Include="logic\lab2\CharacteristicAndValue.cs" />
     <Compile Include="logic\LogicalFunctions.cs" />
     <Compile Include="logic\PercentAndCharacteristicvalue.cs" />
     <Compile Include="Program.cs" />
@@ -76,5 +77,6 @@
   <ItemGroup>
     <Content Include="visual\visualTest.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
