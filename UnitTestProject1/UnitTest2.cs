@@ -54,7 +54,7 @@ namespace UnitTestProject1
             state.Rules.Add(x["Большой"], y["Большой"]);
 
             ICollection<CharacteristicAndValue> outputCollection =
-                state.Rules.Call(x, 1.3);
+                state.Rules.Call(MethodCall.Aggregation, x, 1.3);
             CharacteristicAndValue[] expect = new CharacteristicAndValue[] { new CharacteristicAndValue(y, 163 / 12.1) };
             Assert.AreEqual(expect.Length, outputCollection.Count);
             CharacteristicAndValue output = outputCollection.GetFirst();
