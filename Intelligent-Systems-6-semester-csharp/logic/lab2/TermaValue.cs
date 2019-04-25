@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace lab1.logic.logic.lab2
+namespace lab1.logic.lab2
 {
     public class TermaValue
     {

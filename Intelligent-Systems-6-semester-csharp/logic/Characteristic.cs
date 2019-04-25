@@ -1,7 +1,7 @@
-﻿using System;
+﻿using lab1.logic.lab2;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using lab1.logic.logic.lab2;
 
 namespace lab1
 {
@@ -43,17 +43,22 @@ namespace lab1
         /// </summary>
         public float Min { get; }
 
-        internal ICollection<TermaValue> ValuesAt(double v)
+        /// <summary>
+        /// Получить значения терм в заданной точке.
+        /// </summary>
+        /// <param name="v">Заданная точка.</param>
+        /// <returns>Перечень значений терм.</returns>
+        internal ICollection<TermaValue> TermsValuesAt(double v)
         {
             List<TermaValue> output = new List<TermaValue>();
             double percent;
             foreach(Terma terma in this)
             {
                 percent = terma.GetPercentAt(v);
-                if(percent > 0)
-
+                if (percent > 0)
+                    output.Add(new TermaValue(terma, percent));
             }
-            throw new NotImplementedException();
+            return output;
         }
 
         /// <summary>
@@ -145,9 +150,9 @@ namespace lab1
         }
 
         public IEnumerator<Terma> GetEnumerator() =>
-            ((IEnumerable<Terma>)Terms).GetEnumerator();
+            Terms.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() =>
-            ((IEnumerable<Terma>)Terms).GetEnumerator();
+            Terms.GetEnumerator();
     }
 }

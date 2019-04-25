@@ -13,6 +13,15 @@ namespace UnitTestProject1
     public class UnitTest2
     {
         [TestMethod]
+        public void TestGetPercentAt()
+        {
+            IndefiniteSets state = new IndefiniteSets();
+            state.Characteristics.Add(new Characteristic("Test", 0, 1));
+            state.Characteristics["Test"].Add("Testing", 0, 0, 1, 1);
+            Assert.AreEqual(0.3, state.Characteristics["Test"]["Testing"].GetPercentAt(0.3), 0.0001);
+        }
+
+        [TestMethod]
         public void TestMethod1()
         {
             IndefiniteSets state = new IndefiniteSets();

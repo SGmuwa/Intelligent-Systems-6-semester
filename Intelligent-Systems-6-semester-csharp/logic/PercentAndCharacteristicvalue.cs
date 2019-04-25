@@ -2,7 +2,7 @@
 
 namespace lab1
 {
-    public struct PercentAndCharacteristicvalue
+    public class PercentAndCharacteristicvalue : IComparable, IComparable<PercentAndCharacteristicvalue>
     {
         public PercentAndCharacteristicvalue(double percent, double characteristicValue)
         {
@@ -28,5 +28,21 @@ namespace lab1
                 CharacteristicValue.ToString().Replace(',', '.') +
                 "\" }");
         }
+
+        public int CompareTo(object obj)
+        {
+            return CharacteristicValue.CompareTo(obj);
+        }
+
+        public int CompareTo(PercentAndCharacteristicvalue other)
+        {
+            return CharacteristicValue.CompareTo(other.CharacteristicValue);
+        }
+
+        public static bool operator >(PercentAndCharacteristicvalue left, PercentAndCharacteristicvalue right)
+            => left.CharacteristicValue > right.CharacteristicValue;
+
+        public static bool operator <(PercentAndCharacteristicvalue left, PercentAndCharacteristicvalue right)
+            => left.CharacteristicValue < right.CharacteristicValue;
     }
 }
