@@ -49,7 +49,7 @@
     <Compile Include="logic\lab2\CharacteristicValue.cs" />
     <Compile Include="logic\lab2\MethodType.cs" />
     <Compile Include="logic\LogicalFunctions.cs" />
-    <Compile Include="logic\logic\lab2\TermaValue.cs" />
+    <Compile Include="logic\lab2\TermaValue.cs" />
     <Compile Include="logic\PercentAndCharacteristicvalue.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
