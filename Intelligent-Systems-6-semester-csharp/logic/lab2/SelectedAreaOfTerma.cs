@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace lab1.logic.lab2
 {
@@ -10,7 +11,7 @@ namespace lab1.logic.lab2
     /// </summary>
     public class SelectedAreaOfTerma : IDictionary<CharacteristicValue, TermaValue>
     {
-        private readonly IDictionary<CharacteristicValue, TermaValue> points = new Dictionary<CharacteristicValue, TermaValue>();
+        private readonly Dictionary<CharacteristicValue, TermaValue> points = new Dictionary<CharacteristicValue, TermaValue>();
 
         public Terma Terma { get; }
 
@@ -25,20 +26,27 @@ namespace lab1.logic.lab2
 
         public int Count => points.Count;
 
-        public bool IsReadOnly => points.IsReadOnly;
+        public bool IsReadOnly => ((IDictionary)points).IsReadOnly;
 
         public void Add(CharacteristicValue key, TermaValue value)
         {
             if (!value.Terma.Equals(Terma))
                 throw new ArgumentException();
+            if (!key.Characteristic.Equals(Terma.Parent))
+                throw new ArgumentException();
             points.Add(key, value);
+        }
+
+        public void Add(double charasteristicValue, double termaValue)
+        {
+            points.Add(new CharacteristicValue(Terma.Parent, charasteristicValue), new TermaValue(Terma, termaValue));
         }
 
         public void Add(KeyValuePair<CharacteristicValue, TermaValue> item)
         {
             if (!item.Value.Terma.Equals(Terma))
                 throw new ArgumentException();
-            points.Add(item);
+            ((IDictionary<CharacteristicValue, TermaValue>)points).Add(item);
         }
 
         public void Clear()
@@ -48,7 +56,7 @@ namespace lab1.logic.lab2
 
         public bool Contains(KeyValuePair<CharacteristicValue, TermaValue> item)
         {
-            return points.Contains(item);
+            return ((IDictionary<CharacteristicValue, TermaValue>)points).Contains(item);
         }
 
         public bool ContainsKey(CharacteristicValue key)
@@ -58,7 +66,7 @@ namespace lab1.logic.lab2
 
         public void CopyTo(KeyValuePair<CharacteristicValue, TermaValue>[] array, int arrayIndex)
         {
-            points.CopyTo(array, arrayIndex);
+            ((IDictionary<CharacteristicValue, TermaValue>)points).CopyTo(array, arrayIndex);
         }
 
         public IEnumerator<KeyValuePair<CharacteristicValue, TermaValue>> GetEnumerator()
@@ -73,7 +81,7 @@ namespace lab1.logic.lab2
 
         public bool Remove(KeyValuePair<CharacteristicValue, TermaValue> item)
         {
-            return points.Remove(item);
+            return ((IDictionary<CharacteristicValue, TermaValue>)points).Remove(item);
         }
 
         public bool TryGetValue(CharacteristicValue key, out TermaValue value)
@@ -84,6 +92,23 @@ namespace lab1.logic.lab2
         IEnumerator IEnumerable.GetEnumerator()
         {
             return points.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Срезает верхушку. Изменению подчиняются только уже добавленные данные.
+        /// </summary>
+        /// <param name="percent">Устанавливает максимальное допустимое значение.
+        /// от 0 до 1.</param>
+        void CutUp(double percent)
+        {
+            SelectedAreaOfTerma update = new SelectedAreaOfTerma(Terma);
+            if (!this.IsSort())
+                throw new Exception("Последовательость ключей не отсортирована.");
+            foreach(CharacteristicValue key in keysList)
+            {
+                if(key.Value)
+            }
+            throw new NotImplementedException();
         }
     }
 }

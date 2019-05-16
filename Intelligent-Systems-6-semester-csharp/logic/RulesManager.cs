@@ -90,7 +90,8 @@ namespace lab1
                 foreach (Terma then in thens)
                 {
                     SelectedAreaOfTerma area = new SelectedAreaOfTerma(then);
-                    area.Add();
+                    area.AddRange(then);
+                    area.CutUp(tv.Percent);
                 }
             }
             throw new NotImplementedException();

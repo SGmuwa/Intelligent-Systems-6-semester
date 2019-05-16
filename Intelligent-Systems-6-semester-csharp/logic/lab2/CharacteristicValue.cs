@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 
 namespace lab1.logic.lab2
@@ -6,7 +7,7 @@ namespace lab1.logic.lab2
     /// <summary>
     /// Представляет собой значение характеристики.
     /// </summary>
-    public class CharacteristicValue
+    public class CharacteristicValue : IComparable, IComparable<CharacteristicValue>, IComparable<double>
     {
         private double _value;
 
@@ -35,6 +36,25 @@ namespace lab1.logic.lab2
                         ($"value вне диапазона характеристики: " +
                         $"{Characteristic.Min} ... {value} ... {Characteristic.Max}");
             }
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (obj is double || obj is float)
+                return CompareTo((double)obj);
+            if (obj is CharacteristicValue)
+                return CompareTo((CharacteristicValue)obj);
+            throw new ArgumentException();
+        }
+
+        public int CompareTo(CharacteristicValue other)
+        {
+            return CompareTo(other.Value);
+        }
+
+        public int CompareTo(double other)
+        {
+            return Value.CompareTo(other);
         }
 
         /// <summary>
