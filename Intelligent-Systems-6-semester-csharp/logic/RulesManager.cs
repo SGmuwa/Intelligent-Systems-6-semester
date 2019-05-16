@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using lab1.logic.lab2;
-using lab1.logic.logic.lab2;
 
 namespace lab1
 {
-    public class RulesManager
+    public class RulesManager : IEnumerable<Rule>
     {
         protected List<Rule> Rules
             = new List<Rule>();
@@ -66,14 +66,53 @@ namespace lab1
         /// <returns>Значения then характеристик из заданных правил.</returns>
         public ICollection<CharacteristicValue> Aggregation(CharacteristicValue charactValue)
         {
-            // Поиск значения терм характеристики в точке.
+            // Поиск значения терм характеристики в входной точке.
             ICollection<TermaValue> terms = charactValue.TermsValuesAt();
             // Находим выделение внутри then по каждой терме.
-            ICollection<SelectedAreaOfTerma> areas = Select(terms);
+            ICollection<SelectedAreaOfTerma> areas = SelectInThen(terms);
             // Если термы принадлежат одной характеристики, то объединить их.
             areas = Union(terms);
             // Считаем интеграл для каждой характеристики.
             return Integrals(areas);
+        }
+
+        /// <summary>
+        /// Выделение областей в then (следствия).
+        /// </summary>
+        /// <param name="terms">Значения терм из if (причины)</param>
+        /// <returns>Области.</returns>
+        private ICollection<SelectedAreaOfTerma> SelectInThen(ICollection<TermaValue> terms)
+        {
+            List<SelectedAreaOfTerma> areas = new List<SelectedAreaOfTerma>();
+            foreach(TermaValue tv in terms)
+            {
+                ISet<Terma> thens = SearchThen(tv.Terma);
+                foreach (Terma then in thens)
+                {
+                    SelectedAreaOfTerma area = new SelectedAreaOfTerma(then);
+                    area.Add();
+                }
+            }
+            throw new NotImplementedException();
+            return areas;
+        }
+
+        public ISet<Terma> SearchThen(Terma if_)
+        {
+            HashSet<Terma> output = new HashSet<Terma>();
+            foreach(Rule r in this)
+                output.Add(r.SearchThen(if_));
+            return output;
+        }
+
+        public IEnumerator<Rule> GetEnumerator()
+        {
+            return Rules.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return Rules.GetEnumerator();
         }
     }
 }

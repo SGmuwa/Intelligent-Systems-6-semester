@@ -1,4 +1,5 @@
-﻿using System;
+﻿using lab1.logic;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -56,11 +57,29 @@ namespace lab1
         /// <returns>Процент термы в заданной точке.</returns>
         public double GetPercentAt(double v)
         {
+            if (Length == 0)
+                throw new NotSupportedException();
             PercentAndCharacteristicvalue Previouse = getPreviouse(v);
             PercentAndCharacteristicvalue Next = getNext(v);
             if (Previouse == Next)
                 return Next.Percent;
-            return (Next.Percent - Previouse.Percent) / (Next.CharacteristicValue - Previouse.CharacteristicValue) * v;
+            return MyMath.SearchYifX0X1Y0YX(Previouse.CharacteristicValue, Next.CharacteristicValue, Previouse.Percent, Next.Percent, v);
+        }
+
+
+        private PercentAndCharacteristicvalue getNext(double v)
+        {
+            PercentAndCharacteristicvalue output = null;
+            foreach(PercentAndCharacteristicvalue contain in this)
+            {
+                if (output == null)
+                    output = contain;
+                if (output.CharacteristicValue <= output.CharacteristicValue)
+                    output = contain;
+                else // Работает только для сортированных данных.
+                    return output;
+            }
+            return output;
         }
 
         /// <summary>
@@ -70,7 +89,20 @@ namespace lab1
         /// <returns>Предыдущий состовляющий термы. Если такого нет, то вернёт null.</returns>
         private PercentAndCharacteristicvalue getPreviouse(double v)
         {
-            list.Find
+            PercentAndCharacteristicvalue output = null;
+            List<PercentAndCharacteristicvalue> reverseList
+                = new List<PercentAndCharacteristicvalue>(this);
+            reverseList.Reverse();
+            foreach (PercentAndCharacteristicvalue contain in reverseList)
+            {
+                if (output == null)
+                    output = contain;
+                if (output.CharacteristicValue >= output.CharacteristicValue)
+                    output = contain;
+                else // Работает только для сортированных данных.
+                    return output;
+            }
+            return output;
         }
     }
 }

@@ -61,7 +61,6 @@ namespace lab1
             return sb.ToString();
         }
 
-
         public double[,] Relation()
         {
             double[,] output = new double[termaIf.Length, termaThen.Length];
@@ -79,6 +78,19 @@ namespace lab1
                 }
             }
             return output;
+        }
+
+        /// <summary>
+        /// Возвращает then если if_ и Termaif совпадают.
+        /// </summary>
+        /// <param name="if_">Причина.</param>
+        /// <returns>Следствие, если есть. Иначе - пустота.</returns>
+        public Terma SearchThen(Terma if_)
+        {
+            if (this.termaIf.Equals(if_))
+                return this.termaThen;
+            else
+                return null;
         }
     }
 }

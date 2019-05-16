@@ -12,6 +12,9 @@ namespace lab1.logic.lab2
             this.Percent = Percent;
         }
         public Terma Terma { get; }
+        /// <summary>
+        /// Принимает значение от 0 до 1.
+        /// </summary>
         public double Percent
         {
             get => _value;

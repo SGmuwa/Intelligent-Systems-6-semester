@@ -48,7 +48,7 @@ namespace lab1
         /// </summary>
         /// <param name="v">Заданная точка.</param>
         /// <returns>Перечень значений терм.</returns>
-        internal ICollection<TermaValue> TermsValuesAt(double v)
+        internal List<TermaValue> TermsValuesAt(double v)
         {
             List<TermaValue> output = new List<TermaValue>();
             double percent;
