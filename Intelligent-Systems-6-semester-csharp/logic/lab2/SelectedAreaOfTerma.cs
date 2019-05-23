@@ -141,5 +141,17 @@ namespace lab1.logic.lab2
             }
             return update;
         }
+
+        /// <summary>
+        /// Добавление термы в выделение.
+        /// </summary>
+        /// <param name="needToSelect">Терма, которую надо выделить.</param>
+        public void AddRange(Terma needToSelect)
+        {
+            foreach(var piece in needToSelect)
+            {
+                Add(piece.CharacteristicValue, piece.Percent);
+            }
+        }
     }
 }

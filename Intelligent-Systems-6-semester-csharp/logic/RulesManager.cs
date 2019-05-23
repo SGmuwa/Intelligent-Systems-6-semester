@@ -91,10 +91,10 @@ namespace lab1
                 {
                     SelectedAreaOfTerma area = new SelectedAreaOfTerma(then);
                     area.AddRange(then);
-                    area.CutUp(tv.Percent);
+                    area = area.CutUp(tv.Percent);
+                    areas.Add(area);
                 }
             }
-            throw new NotImplementedException();
             return areas;
         }
 
