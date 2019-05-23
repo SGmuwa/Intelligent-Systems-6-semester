@@ -20,6 +20,25 @@ namespace lab1.logic
 
         /// <summary>
         /// Определяет, отсортирована ли последовательность.
+        /// На сортировку проверяются только ключи.
+        /// </summary>
+        /// <param name="list">Последовательность, которая должна быть отсортирована.</param>
+        public static bool IsSort<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> list) where TKey : IComparable<TKey>
+        {
+            TKey last = default(TKey);
+            bool init = false;
+            foreach (var t in list)
+            {
+                if (!init)
+                    last = t.Key;
+                else if (t.Key.CompareTo(last) < 0)
+                    return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Определяет, отсортирована ли последовательность.
         /// </summary>
         /// <param name="list">Последовательность, которая должна быть отсортирована.</param>
         public static bool IsSort<T>(this IEnumerable<T> list) where T : IComparable

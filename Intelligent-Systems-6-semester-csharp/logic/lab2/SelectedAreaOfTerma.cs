@@ -95,20 +95,51 @@ namespace lab1.logic.lab2
         }
 
         /// <summary>
-        /// Срезает верхушку. Изменению подчиняются только уже добавленные данные.
+        /// Срезает верхушку. Результат возвращается.
         /// </summary>
         /// <param name="percent">Устанавливает максимальное допустимое значение.
         /// от 0 до 1.</param>
-        void CutUp(double percent)
+        /// 
+        public SelectedAreaOfTerma CutUp(double percent)
         {
             SelectedAreaOfTerma update = new SelectedAreaOfTerma(Terma);
             if (!this.IsSort())
                 throw new Exception("Последовательость ключей не отсортирована.");
-            foreach(CharacteristicValue key in keysList)
+            KeyValuePair<CharacteristicValue, TermaValue> last =
+                new KeyValuePair<CharacteristicValue, TermaValue>(null, null);
+            foreach(KeyValuePair<CharacteristicValue, TermaValue> pair in this)
             {
-                if(key.Value)
+                if (pair.Value.Percent <= percent)
+                {
+                    update.Add(pair);
+                    last = pair;
+                }
+                else
+                {
+                    if (last.Key == null)
+                    {
+                        last = new KeyValuePair<CharacteristicValue, TermaValue>(
+                            new CharacteristicValue(
+                                pair.Key.Characteristic,
+                                pair.Key.Value),
+                            pair.Value);
+                        update.Add(last);
+                    }
+                    else
+                    {
+                        double keyValue = MyMath.SearchYifX0X1Y0YX(
+                            last.Value.Percent,
+                            pair.Value.Percent,
+                            last.Key.Value,
+                            pair.Key.Value,
+                            percent);
+                        update.Add(keyValue, percent);
+                        last = new KeyValuePair<CharacteristicValue, TermaValue>(new CharacteristicValue(pair.Key.Characteristic, pair.Key.Value), new TermaValue(pair.Value.Terma, pair.Value.Percent));
+                        update.Add(last);
+                    }
+                }
             }
-            throw new NotImplementedException();
+            return update;
         }
     }
 }
