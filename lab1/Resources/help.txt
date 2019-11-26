@@ -1,9 +1,9 @@
-create - создать новое состояние.
-help - Вывести данный список.
-exit - Выход из программы.
-addCharacteristic string_name float_min float_max - Добавить характеристику.
-addTerm string_characteristricName string_termaName double_percent1 double_value1 double_percent2 double_value2 ... - Добавить терму к характеристике.
-addRule string_characteristicName string_termaName string_characteristicName string_termaName - Добавить правило.
-addRuleLogic string_function[NOT] string_characteristicName string_termaName string_newTermaName - Добавить новую терму по функциональной зависимости.
-relation int_rule_id - Посмотреть отношение.
-show - показать текущее состояние программы.
+create - СЃРѕР·РґР°С‚СЊ РЅРѕРІРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ.
+help - Р’С‹РІРµСЃС‚Рё РґР°РЅРЅС‹Р№ СЃРїРёСЃРѕРє.
+exit - Р’С‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹.
+addCharacteristic string_name float_min float_max - Р”РѕР±Р°РІРёС‚СЊ С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєСѓ.
+addTerm string_characteristricName string_termaName double_percent1 double_value1 double_percent2 double_value2 ... - Р”РѕР±Р°РІРёС‚СЊ С‚РµСЂРјСѓ Рє С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєРµ.
+addRule string_characteristicName string_termaName string_characteristicName string_termaName - Р”РѕР±Р°РІРёС‚СЊ РїСЂР°РІРёР»Рѕ.
+addRuleLogic string_function[NOT] string_characteristicName string_termaName string_newTermaName - Р”РѕР±Р°РІРёС‚СЊ РЅРѕРІСѓСЋ С‚РµСЂРјСѓ РїРѕ С„СѓРЅРєС†РёРѕРЅР°Р»СЊРЅРѕР№ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё.
+relation int_rule_id - РџРѕСЃРјРѕС‚СЂРµС‚СЊ РѕС‚РЅРѕС€РµРЅРёРµ.
+show - РїРѕРєР°Р·Р°С‚СЊ С‚РµРєСѓС‰РµРµ СЃРѕСЃС‚РѕСЏРЅРёРµ РїСЂРѕРіСЂР°РјРјС‹.
