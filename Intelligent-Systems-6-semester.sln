@@ -1,10 +1,8 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Intelligent-Systems-6-semester", "Intelligent-Systems-6-semester.vcxproj", "{F341DC62-2990-4E48-883B-C7B62D4ED791}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lab1", "Intelligent-Systems-6-semester-csharp\lab1.csproj", "{357CE44A-3882-4A76-9148-09C808217FE8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{F9CC5AE3-FFF2-4B89-8699-834F7477E858}"
@@ -19,16 +17,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F341DC62-2990-4E48-883B-C7B62D4ED791}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{F341DC62-2990-4E48-883B-C7B62D4ED791}.Debug|x64.ActiveCfg = Debug|x64
-		{F341DC62-2990-4E48-883B-C7B62D4ED791}.Debug|x64.Build.0 = Debug|x64
-		{F341DC62-2990-4E48-883B-C7B62D4ED791}.Debug|x86.ActiveCfg = Debug|Win32
-		{F341DC62-2990-4E48-883B-C7B62D4ED791}.Debug|x86.Build.0 = Debug|Win32
-		{F341DC62-2990-4E48-883B-C7B62D4ED791}.Release|Any CPU.ActiveCfg = Release|Win32
-		{F341DC62-2990-4E48-883B-C7B62D4ED791}.Release|x64.ActiveCfg = Release|x64
-		{F341DC62-2990-4E48-883B-C7B62D4ED791}.Release|x64.Build.0 = Release|x64
-		{F341DC62-2990-4E48-883B-C7B62D4ED791}.Release|x86.ActiveCfg = Release|Win32
-		{F341DC62-2990-4E48-883B-C7B62D4ED791}.Release|x86.Build.0 = Release|Win32
 		{357CE44A-3882-4A76-9148-09C808217FE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{357CE44A-3882-4A76-9148-09C808217FE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{357CE44A-3882-4A76-9148-09C808217FE8}.Debug|x64.ActiveCfg = Debug|Any CPU
