@@ -1,4 +1,4 @@
-create - создать новое состояние.
+﻿create - создать новое состояние.
 help - Вывести данный список.
 exit - Выход из программы.
 addCharacteristic string_name float_min float_max - Добавить характеристику.

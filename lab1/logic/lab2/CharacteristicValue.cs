@@ -20,7 +20,7 @@ namespace lab1.logic.lab2
         }
 
         /// <summary>
-        /// Получение характериситики.
+        /// Получение характеристики.
         /// </summary>
         public Characteristic Characteristic { get; }
         /// <summary>

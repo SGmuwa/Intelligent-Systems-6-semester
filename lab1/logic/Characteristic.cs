@@ -18,7 +18,7 @@ namespace lab1
         /// <summary>
         /// Создание новой характеристики.
         /// </summary>
-        /// <param name="name">Имя характериситики.</param>
+        /// <param name="name">Имя характеристики.</param>
         /// <param name="min">Минимальное допустимое значение характериситики.</param>
         /// <param name="max">Максимальное допустимое значение характериситики.</param>
         public Characteristic(string name, float min, float max)
@@ -39,7 +39,7 @@ namespace lab1
         /// </summary>
         public string Name { get; }
         /// <summary>
-        /// Получение минимального задования характериситики.
+        /// Получение минимальной границы характериситики.
         /// </summary>
         public float Min { get; }
 
@@ -62,12 +62,12 @@ namespace lab1
         }
 
         /// <summary>
-        /// Получение максимального задования характериситики.
+        /// Получение максимальной границы характериситики.
         /// </summary>
         public float Max { get; }
 
         /// <summary>
-        /// Добавление новой термы в характериситику.
+        /// Добавление новой термы в характеристику.
         /// </summary>
         /// <param name="nameTerma">Имя термы.</param>
         /// <param name="ranges">Писать числа по парам: первое число - процент от 0 до 1.

@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace lab1.logic
 {
     static class MyMath
     {
         /// <summary>
-        /// Функция интерпритации.
-        /// При двух значениях аргумента и значеня функции
+        /// Функция интерполяции.
+        /// При двух значениях аргумента и значения функции
         /// ищет значение в свободном аргументе.
         /// </summary>
-        public static double SearchYifX0X1Y0YX(double x0, double x1, double y0, double y1, double x)
-        {
-            return (y1 - y0) / (x1 - x0) * x;
-        }
+        public static double Interpolation(double x0, double x1, double y0, double y1, double x)
+            => (x-x1)/(x0-x1)*y0 + (x-x0)/(x1-x0)*y1;
 
         /// <summary>
         /// Определяет, отсортирована ли последовательность.
@@ -25,7 +20,7 @@ namespace lab1.logic
         /// <param name="list">Последовательность, которая должна быть отсортирована.</param>
         public static bool IsSort<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> list) where TKey : IComparable<TKey>
         {
-            TKey last = default(TKey);
+            TKey last = default;
             bool init = false;
             foreach (var t in list)
             {
@@ -43,7 +38,7 @@ namespace lab1.logic
         /// <param name="list">Последовательность, которая должна быть отсортирована.</param>
         public static bool IsSort<T>(this IEnumerable<T> list) where T : IComparable
         {
-            T last = default(T);
+            T last = default;
             bool init = false;
             foreach(T t in list)
             {

@@ -59,22 +59,22 @@ namespace lab1
         {
             if (Length == 0)
                 throw new NotSupportedException();
-            PercentAndCharacteristicvalue Previouse = getPreviouse(v);
-            PercentAndCharacteristicvalue Next = getNext(v);
-            if (Previouse == Next)
+            PercentAndCharacteristicvalue Previous = GetPrevious(v);
+            PercentAndCharacteristicvalue Next = GetNext(v);
+            if (Previous == Next)
                 return Next.Percent;
-            return MyMath.SearchYifX0X1Y0YX(Previouse.CharacteristicValue, Next.CharacteristicValue, Previouse.Percent, Next.Percent, v);
+            return MyMath.Interpolation(Previous.CharacteristicValue, Next.CharacteristicValue, Previous.Percent, Next.Percent, v);
         }
 
 
-        private PercentAndCharacteristicvalue getNext(double v)
+        private PercentAndCharacteristicvalue GetNext(double v)
         {
             PercentAndCharacteristicvalue output = null;
             foreach(PercentAndCharacteristicvalue contain in this)
             {
                 if (output == null)
                     output = contain;
-                if (output.CharacteristicValue <= output.CharacteristicValue)
+                if (output.CharacteristicValue <= v)
                     output = contain;
                 else // Работает только для сортированных данных.
                     return output;
@@ -83,11 +83,11 @@ namespace lab1
         }
 
         /// <summary>
-        /// Получает предыдущую состовляющую термы по значению характеристики
+        /// Получает предыдущую составляющую термы по значению характеристики
         /// </summary>
-        /// <param name="v">Значение характериситики.</param>
-        /// <returns>Предыдущий состовляющий термы. Если такого нет, то вернёт null.</returns>
-        private PercentAndCharacteristicvalue getPreviouse(double v)
+        /// <param name="v">Значение характеристики.</param>
+        /// <returns>Предыдущий составляющий термы. Если такого нет, то вернёт null.</returns>
+        private PercentAndCharacteristicvalue GetPrevious(double v)
         {
             PercentAndCharacteristicvalue output = null;
             List<PercentAndCharacteristicvalue> reverseList
@@ -97,7 +97,7 @@ namespace lab1
             {
                 if (output == null)
                     output = contain;
-                if (output.CharacteristicValue >= output.CharacteristicValue)
+                if (output.CharacteristicValue >= v)
                     output = contain;
                 else // Работает только для сортированных данных.
                     return output;

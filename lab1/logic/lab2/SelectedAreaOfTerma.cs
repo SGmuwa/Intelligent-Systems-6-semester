@@ -7,7 +7,7 @@ namespace lab1.logic.lab2
 {
     /// <summary>
     /// Класс представляет выделенную
-    /// територию термы.
+    /// территорию термы.
     /// </summary>
     public class SelectedAreaOfTerma : IDictionary<CharacteristicValue, TermaValue>
     {
@@ -127,7 +127,7 @@ namespace lab1.logic.lab2
                     }
                     else
                     {
-                        double keyValue = MyMath.SearchYifX0X1Y0YX(
+                        double keyValue = MyMath.Interpolation(
                             last.Value.Percent,
                             pair.Value.Percent,
                             last.Key.Value,

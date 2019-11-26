@@ -37,7 +37,7 @@ namespace lab1
         /// </summary>
         /// <param name="typeMethod">Тип управления.</param>
         /// <param name="charact">Характеристика, которой мы управляем.</param>
-        /// <param name="value">Значение характериситки.</param>
+        /// <param name="value">Значение характеристики.</param>
         /// <returns>Значения then характеристик из заданных правил.</returns>
         public ICollection<CharacteristicValue> Call(MethodType typeMethod, Characteristic charact, double value)
             => Call(typeMethod, new CharacteristicValue(charact, value));
@@ -69,11 +69,22 @@ namespace lab1
             // Поиск значения терм характеристики в входной точке.
             ICollection<TermaValue> terms = charactValue.TermsValuesAt();
             // Находим выделение внутри then по каждой терме.
-            ICollection<SelectedAreaOfTerma> areas = SelectInThen(terms);
+            IList<SelectedAreaOfTerma> areas = SelectInThen(terms);
             // Если термы принадлежат одной характеристики, то объединить их.
-            areas = Union(terms);
+            areas = Union(areas);
             // Считаем интеграл для каждой характеристики.
-            return Integrals(areas);
+            //return Integrals(areas);
+        }
+
+        private IList<SelectedAreaOfTerma> Union(IList<SelectedAreaOfTerma> areas)
+        {
+            foreach(var area in areas)
+            {
+                foreach(var pair in area)
+                {
+                    // TODO pair
+                }
+            }
         }
 
         /// <summary>
@@ -81,7 +92,7 @@ namespace lab1
         /// </summary>
         /// <param name="terms">Значения терм из if (причины)</param>
         /// <returns>Области.</returns>
-        private ICollection<SelectedAreaOfTerma> SelectInThen(ICollection<TermaValue> terms)
+        private List<SelectedAreaOfTerma> SelectInThen(ICollection<TermaValue> terms)
         {
             List<SelectedAreaOfTerma> areas = new List<SelectedAreaOfTerma>();
             foreach(TermaValue tv in terms)
@@ -103,6 +114,7 @@ namespace lab1
             HashSet<Terma> output = new HashSet<Terma>();
             foreach(Rule r in this)
                 output.Add(r.SearchThen(if_));
+            output.Remove(null);
             return output;
         }
 
