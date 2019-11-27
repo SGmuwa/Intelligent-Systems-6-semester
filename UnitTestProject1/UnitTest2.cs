@@ -66,7 +66,7 @@ namespace UnitTestProject1
                 state.Rules.Call(MethodType.Aggregation, x, 1.3);
             Assert.IsNotNull(outputCollection);
             CharacteristicValue[] expect = new CharacteristicValue[]
-            { new CharacteristicValue(y, 163 / 12.1) };
+            { new CharacteristicValue(y, 163 / 12.1) }; // 13.47107438
             Assert.AreEqual(expect.Length, outputCollection.Count);
             CharacteristicValue output = outputCollection.GetFirst();
             Assert.AreEqual(expect[0].Characteristic, output.Characteristic);
