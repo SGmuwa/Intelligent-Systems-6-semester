@@ -169,18 +169,27 @@ namespace lab1
                         continue;
                     if(areaLeft.Keys.First().Characteristic == areaRight.Keys.First().Characteristic)
                     {
-                        SelectedAreaOfTerma editedArea = new SelectedAreaOfTerma(areaRight.Values.First().Terma);
+                        SelectedAreaOfTerma editedArea = new SelectedAreaOfTerma(areaLeft.Values.First().Terma);
                         bool? PreviousLeftBiggerRight = null;
                         KeyValuePair<CharacteristicValue, TermaValue>? previousLeft = null;
                         foreach(KeyValuePair<CharacteristicValue, TermaValue> pair in areaLeft)
                         {
                             double valueLeft = pair.Value.Percent;
                             double valueRight = areaRight.GetPercentAt(pair.Key.Value);
-                            if(valueLeft > valueRight)
+                            if(valueLeft >= valueRight)
                             { // Левый хороший, надо его оставить.
                                 if(PreviousLeftBiggerRight.HasValue && !PreviousLeftBiggerRight.Value)
                                 { // Хотя раньше он был плохим
-                                    editedArea.Add(GetIntersectionPoint(previousLeft.Value, pair, areaRight.GetPrevious(pair.Key.Value), areaRight.GetNext(pair.Key.Value)));
+                                    var rightPairPrevious = areaRight.GetPrevious(pair.Key.Value);
+                                    var rightPairNext = areaRight.GetNext(pair.Key.Value);
+                                    if(rightPairPrevious.Key.Value == rightPairNext.Key.Value)
+                                    {
+                                        rightPairPrevious = new KeyValuePair<CharacteristicValue, TermaValue>(
+                                            new CharacteristicValue(rightPairPrevious.Key.Characteristic, rightPairPrevious.Key.Value - 1),
+                                            rightPairPrevious.Value
+                                        );
+                                    }
+                                    editedArea.Add(GetIntersectionPoint(previousLeft.Value, pair, rightPairPrevious, rightPairNext));
                                 }
                                 editedArea.Add(pair.Key, pair.Value);
                                 PreviousLeftBiggerRight = true;
