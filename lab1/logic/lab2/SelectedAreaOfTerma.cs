@@ -105,17 +105,17 @@ namespace lab1.logic.lab2
             SelectedAreaOfTerma update = new SelectedAreaOfTerma(Terma);
             if (!this.IsSort())
                 throw new Exception("Последовательость ключей не отсортирована.");
-            if(this.Count < 1)
+            if (this.Count < 1)
                 throw new NotSupportedException("Требуется хотя бы одна точка.");
             KeyValuePair<CharacteristicValue, TermaValue> last =
                 new KeyValuePair<CharacteristicValue, TermaValue>(null, null);
             KeyValuePair<CharacteristicValue, TermaValue>? previous = null;
             bool isPreviousTooBig = this.First().Value.Percent > percent;
-            foreach(KeyValuePair<CharacteristicValue, TermaValue> pair in this)
+            foreach (KeyValuePair<CharacteristicValue, TermaValue> pair in this)
             {
                 if (pair.Value.Percent <= percent)
                 {
-                    if(isPreviousTooBig)
+                    if (isPreviousTooBig)
                     {
                         double keyValue = MyMath.Interpolation(
                             previous.Value.Value.Percent,
@@ -148,7 +148,7 @@ namespace lab1.logic.lab2
                             last.Key.Value,
                             pair.Key.Value,
                             percent);
-                        if(keyValue != last.Key.Value)
+                        if (keyValue != last.Key.Value)
                         {
                             update.Add(keyValue, percent);
                             last = new KeyValuePair<CharacteristicValue, TermaValue>(new CharacteristicValue(pair.Key.Characteristic, keyValue), new TermaValue(pair.Value.Terma, percent));
@@ -158,7 +158,7 @@ namespace lab1.logic.lab2
                 }
                 previous = pair;
             }
-            if(isPreviousTooBig)
+            if (isPreviousTooBig)
             {
                 update.Add(previous.Value.Key.Value, percent);
             }
@@ -171,7 +171,7 @@ namespace lab1.logic.lab2
         /// <param name="needToSelect">Терма, которую надо выделить.</param>
         public void AddRange(Terma needToSelect)
         {
-            foreach(var piece in needToSelect)
+            foreach (var piece in needToSelect)
             {
                 Add(piece.CharacteristicValue, piece.Percent);
             }
@@ -197,7 +197,7 @@ namespace lab1.logic.lab2
         public KeyValuePair<CharacteristicValue, TermaValue> GetNext(double v)
         {
             KeyValuePair<CharacteristicValue, TermaValue>? output = null;
-            foreach(KeyValuePair<CharacteristicValue, TermaValue> contain in this)
+            foreach (KeyValuePair<CharacteristicValue, TermaValue> contain in this)
             {
                 if (output == null)
                     output = contain;
@@ -230,6 +230,60 @@ namespace lab1.logic.lab2
                     return output.Value;
             }
             return output.Value;
+        }
+
+        /// <summary>
+        /// Выбирает только часть от выделения между min и max, а также по одной точке за границами min и max.
+        /// </summary>
+        /// <param name="min">Минимальная граница выделения.</param>
+        /// <param name="max">Максимальная граница выделения.</param>
+        /// <returns>Новый промежуток выделения.</returns>
+        public List<KeyValuePair<CharacteristicValue, TermaValue>> SubAndOnePointBeyondEachBorder(CharacteristicValue min, CharacteristicValue max)
+        {
+            SubAndOnePointBeyondEachBorder_State minNotAdded = SubAndOnePointBeyondEachBorder_State.minNotAdded, minAdded_maxNotAdded = SubAndOnePointBeyondEachBorder_State.minAdded_maxNotAdded, minmaxAdded = SubAndOnePointBeyondEachBorder_State.minmaxAdded;
+            if (Count == 0)
+                throw new NotSupportedException();
+            if (min.Characteristic != max.Characteristic || max.Characteristic != this.First().Key.Characteristic)
+                throw new ArgumentException();
+            List<KeyValuePair<CharacteristicValue, TermaValue>> sortedPoints = new List<KeyValuePair<CharacteristicValue, TermaValue>>(points);
+            sortedPoints.Sort((l, r) => l.Key.Value.CompareTo(r.Key.Value));
+            KeyValuePair<CharacteristicValue, TermaValue>? previous = null;
+            List<KeyValuePair<CharacteristicValue, TermaValue>> output = new List<KeyValuePair<CharacteristicValue, TermaValue>>(sortedPoints.Count);
+            SubAndOnePointBeyondEachBorder_State state = minNotAdded;
+            foreach (var point in sortedPoints)
+            {
+                if (min.Value <= point.Key.Value && state == minNotAdded)
+                {
+                    if (previous.HasValue)
+                        output.Add(previous.Value);
+                    else
+                        output.Add(new KeyValuePair<CharacteristicValue, TermaValue>(new CharacteristicValue(point.Key.Characteristic, point.Key.Value - 1), point.Value));
+                    state = minAdded_maxNotAdded;
+                }
+                if(min.Value <= point.Key.Value && point.Key.Value <= max.Value)
+                {
+                    output.Add(point);
+                }
+                if (point.Key.Value > max.Value && state == minAdded_maxNotAdded)
+                {
+                    output.Add(point);
+                    state = minmaxAdded;
+                }
+                previous = point;
+            }
+            if (state == minAdded_maxNotAdded)
+            {
+                output.Add(new KeyValuePair<CharacteristicValue, TermaValue>(new CharacteristicValue(previous.Value.Key.Characteristic, previous.Value.Key.Value + 1), previous.Value.Value));
+                state = minmaxAdded;
+            }
+            return output;
+        }
+
+        private enum SubAndOnePointBeyondEachBorder_State
+        {
+            minNotAdded,
+            minAdded_maxNotAdded,
+            minmaxAdded
         }
     }
 }
