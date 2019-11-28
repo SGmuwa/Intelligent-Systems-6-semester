@@ -176,5 +176,60 @@ namespace lab1.logic.lab2
                 Add(piece.CharacteristicValue, piece.Percent);
             }
         }
+
+        /// <summary>
+        /// Получить процент термы в заданной точке.
+        /// </summary>
+        /// <param name="v">Заданная точка, в которой нас интересует процент Термы.</param>
+        /// <returns>Процент термы в заданной точке.</returns>
+        public double GetPercentAt(double v)
+        {
+            if (Count == 0)
+                throw new NotSupportedException();
+            KeyValuePair<CharacteristicValue, TermaValue> Previous = GetPrevious(v);
+            KeyValuePair<CharacteristicValue, TermaValue> Next = GetNext(v);
+            if (Previous.Key.Value == Next.Key.Value)
+                return Next.Value.Percent;
+            return MyMath.Interpolation(Previous.Key.Value, Next.Key.Value, Previous.Value.Percent, Next.Value.Percent, v);
+        }
+
+
+        public KeyValuePair<CharacteristicValue, TermaValue> GetNext(double v)
+        {
+            KeyValuePair<CharacteristicValue, TermaValue>? output = null;
+            foreach(KeyValuePair<CharacteristicValue, TermaValue> contain in this)
+            {
+                if (output == null)
+                    output = contain;
+                if (output.Value.Key.Value <= v)
+                    output = contain;
+                else // Работает только для сортированных данных.
+                    return output.Value;
+            }
+            return output.Value;
+        }
+
+        /// <summary>
+        /// Получает предыдущую составляющую термы по значению характеристики
+        /// </summary>
+        /// <param name="v">Значение характеристики.</param>
+        /// <returns>Предыдущий составляющий термы. Если такого нет, то вернёт null.</returns>
+        public KeyValuePair<CharacteristicValue, TermaValue> GetPrevious(double v)
+        {
+            KeyValuePair<CharacteristicValue, TermaValue>? output = null;
+            List<KeyValuePair<CharacteristicValue, TermaValue>> reverseList
+                = new List<KeyValuePair<CharacteristicValue, TermaValue>>(this);
+            reverseList.Reverse();
+            foreach (KeyValuePair<CharacteristicValue, TermaValue> contain in reverseList)
+            {
+                if (!output.HasValue)
+                    output = contain;
+                if (output.Value.Key.Value >= v)
+                    output = contain;
+                else // Работает только для сортированных данных.
+                    return output.Value;
+            }
+            return output.Value;
+        }
     }
 }

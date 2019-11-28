@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using lab1.logic.lab2;
 
 namespace lab1
@@ -17,7 +18,7 @@ namespace lab1
         public Rule this[int index] => Rules[index];
 
         public void Add(Terma termaIf, Terma termaThen)
-        { // По хорошему надо бы сделать, чтобы termaIf была типа IEnumireable
+        { // По хорошему надо бы сделать, чтобы termaIf была типа IEnumerable
             Rule toAdd = new Rule(termaIf, termaThen);
             if (toAdd == null)
                 throw new ArgumentNullException();
@@ -70,14 +71,16 @@ namespace lab1
             // Поиск значения терм характеристики в входной точке.
             ICollection<TermaValue> terms = charactValue.TermsValuesAt();
             // Находим выделение внутри then по каждой терме.
-            IList<SelectedAreaOfTerma> areas = SelectInThen(terms);
+            IEnumerable<SelectedAreaOfTerma> areas = SelectInThen(terms);
             // Если термы принадлежат одной характеристики, то объединить их.
             areas = Union(areas);
+            // Объединяем до одной линии.
+            areas = Merge(areas);
             // Считаем интеграл для каждой характеристики.
             return GetCenters(areas);
         }
 
-        private HashSet<CharacteristicValue> GetCenters(IList<SelectedAreaOfTerma> areas)
+        private HashSet<CharacteristicValue> GetCenters(IEnumerable<SelectedAreaOfTerma> areas)
         {
             HashSet<CharacteristicValue> output = new HashSet<CharacteristicValue>();
             foreach(SelectedAreaOfTerma area in areas)
@@ -154,18 +157,90 @@ namespace lab1
             return h * (a + b) / 2;
         }
 
-        private IList<SelectedAreaOfTerma> Union(IList<SelectedAreaOfTerma> areas)
+        private List<SelectedAreaOfTerma> Union(IEnumerable<SelectedAreaOfTerma> areas)
         {
-            return areas;
+            var output = new List<SelectedAreaOfTerma>();
             
             foreach(var areaLeft in areas)
             {
-
-                foreach(var pair in areaLeft)
+                foreach(var areaRight in areas)
                 {
-                    // TODO pair
+                    if(areaLeft == areaRight)
+                        continue;
+                    if(areaLeft.Keys.First().Characteristic == areaRight.Keys.First().Characteristic)
+                    {
+                        SelectedAreaOfTerma editedArea = new SelectedAreaOfTerma(areaRight.Values.First().Terma);
+                        bool? PreviousLeftBiggerRight = null;
+                        KeyValuePair<CharacteristicValue, TermaValue>? previousLeft = null;
+                        foreach(KeyValuePair<CharacteristicValue, TermaValue> pair in areaLeft)
+                        {
+                            double valueLeft = pair.Value.Percent;
+                            double valueRight = areaRight.GetPercentAt(pair.Key.Value);
+                            if(valueLeft > valueRight)
+                            { // Левый хороший, надо его оставить.
+                                if(PreviousLeftBiggerRight.HasValue && !PreviousLeftBiggerRight.Value)
+                                { // Хотя раньше он был плохим
+                                    editedArea.Add(GetIntersectionPoint(previousLeft.Value, pair, areaRight.GetPrevious(pair.Key.Value), areaRight.GetNext(pair.Key.Value)));
+                                }
+                                editedArea.Add(pair.Key, pair.Value);
+                                PreviousLeftBiggerRight = true;
+                            }
+                            else
+                            { // Левый плохой.
+                                if(PreviousLeftBiggerRight.HasValue && PreviousLeftBiggerRight.Value)
+                                { // Хотя раньше он был хорошим
+                                    // Найдём, когда он стал плохим.
+                                    editedArea.Add(GetIntersectionPoint(previousLeft.Value, pair, areaRight.GetPrevious(pair.Key.Value), areaRight.GetNext(pair.Key.Value)));
+                                }
+                                PreviousLeftBiggerRight = false;
+                            }
+                            previousLeft = pair;
+                        }
+                        output.Add(editedArea);
+                    }
+                    else
+                    {
+                        output.Add(areaLeft);
+                    }
                 }
             }
+            return output;
+        }
+
+        /// <summary>
+        /// Пытается объединить выделения до одной полосы.
+        /// </summary>
+        /// <param name="areas">Выделения, которые надо объединить.</param>
+        /// <returns>Объединённые выделения.</returns>
+        private ICollection<SelectedAreaOfTerma> Merge(IEnumerable<SelectedAreaOfTerma> areas)
+        {
+            Dictionary<Characteristic, SelectedAreaOfTerma> output = new Dictionary<Characteristic, SelectedAreaOfTerma>();
+            foreach(var area in areas)
+            {
+
+            }
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Ищет пересечение между прямыми A --- B и C --- D.
+        /// </summary>
+        private KeyValuePair<CharacteristicValue, TermaValue> GetIntersectionPoint(
+            KeyValuePair<CharacteristicValue, TermaValue> A,
+            KeyValuePair<CharacteristicValue, TermaValue> B,
+            KeyValuePair<CharacteristicValue, TermaValue> C,
+            KeyValuePair<CharacteristicValue, TermaValue> D)
+        {
+            (double, double) answer = GetIntersectionPoint(
+                A.Key.Value, A.Value.Percent,
+                B.Key.Value, B.Value.Percent,
+                C.Key.Value, C.Value.Percent,
+                D.Key.Value, D.Value.Percent
+            );
+            return new KeyValuePair<CharacteristicValue, TermaValue>(
+                new CharacteristicValue(A.Key.Characteristic, answer.Item1),
+                new TermaValue(A.Value.Terma, answer.Item2)
+            );
         }
 
         private (double, double) GetIntersectionPoint(double xa, double ya, double xb, double yb, double xc, double yc, double xd, double yd)
