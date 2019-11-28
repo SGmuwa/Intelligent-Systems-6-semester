@@ -105,14 +105,29 @@ namespace lab1.logic.lab2
             SelectedAreaOfTerma update = new SelectedAreaOfTerma(Terma);
             if (!this.IsSort())
                 throw new Exception("Последовательость ключей не отсортирована.");
+            if(this.Count < 1)
+                throw new NotSupportedException("Требуется хотя бы одна точка.");
             KeyValuePair<CharacteristicValue, TermaValue> last =
                 new KeyValuePair<CharacteristicValue, TermaValue>(null, null);
+            KeyValuePair<CharacteristicValue, TermaValue>? previous = null;
+            bool isPreviousTooBig = this.First().Value.Percent > percent;
             foreach(KeyValuePair<CharacteristicValue, TermaValue> pair in this)
             {
                 if (pair.Value.Percent <= percent)
                 {
+                    if(isPreviousTooBig)
+                    {
+                        double keyValue = MyMath.Interpolation(
+                            previous.Value.Value.Percent,
+                            pair.Value.Percent,
+                            previous.Value.Key.Value,
+                            pair.Key.Value,
+                            percent);
+                        update.Add(keyValue, percent);
+                    }
                     update.Add(pair);
                     last = pair;
+                    isPreviousTooBig = false;
                 }
                 else
                 {
@@ -122,7 +137,7 @@ namespace lab1.logic.lab2
                             new CharacteristicValue(
                                 pair.Key.Characteristic,
                                 pair.Key.Value),
-                            pair.Value);
+                            new TermaValue(pair.Value.Terma, percent));
                         update.Add(last);
                     }
                     else
@@ -133,11 +148,19 @@ namespace lab1.logic.lab2
                             last.Key.Value,
                             pair.Key.Value,
                             percent);
-                        update.Add(keyValue, percent);
-                        last = new KeyValuePair<CharacteristicValue, TermaValue>(new CharacteristicValue(pair.Key.Characteristic, pair.Key.Value), new TermaValue(pair.Value.Terma, pair.Value.Percent));
-                        update.Add(last);
+                        if(keyValue != last.Key.Value)
+                        {
+                            update.Add(keyValue, percent);
+                            last = new KeyValuePair<CharacteristicValue, TermaValue>(new CharacteristicValue(pair.Key.Characteristic, keyValue), new TermaValue(pair.Value.Terma, percent));
+                        }
                     }
+                    isPreviousTooBig = true;
                 }
+                previous = pair;
+            }
+            if(isPreviousTooBig)
+            {
+                update.Add(previous.Value.Key.Value, percent);
             }
             return update;
         }

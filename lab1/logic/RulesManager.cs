@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using lab1.logic.lab2;
 
 namespace lab1
@@ -156,14 +157,38 @@ namespace lab1
         private IList<SelectedAreaOfTerma> Union(IList<SelectedAreaOfTerma> areas)
         {
             return areas;
-            /*
-            foreach(var area in areas)
+            
+            foreach(var areaLeft in areas)
             {
-                foreach(var pair in area)
+
+                foreach(var pair in areaLeft)
                 {
                     // TODO pair
                 }
-            }*/
+            }
+        }
+
+        private (double, double) GetIntersectionPoint(double xa, double ya, double xb, double yb, double xc, double yc, double xd, double yd)
+        {
+            // http://www.cyberforum.ru/c-beginners/thread665859.html
+            double t2 = ((xc-xa)*(yb-ya)-(xb-xa)*(yc-ya)) / ((xb-xa)*(yd-yc)-(xd-xc)*(yb-ya));
+            double x = xc+(xd-xc)*t2;
+            double y = yc+(yd-yc)*t2;
+            return (x, y);
+        }
+
+        private string DebugAreas(IList<SelectedAreaOfTerma> areas)
+        {
+            StringBuilder debug = new StringBuilder();
+            int p = -1;
+            foreach(var area in areas)
+            {
+                p++;
+                foreach(var point in area)
+                    debug.Append($"({point.Key.Value};{point.Value.Percent}) ");
+                debug.Append("\n\n");
+            }
+            return debug.ToString();
         }
 
         /// <summary>
