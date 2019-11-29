@@ -98,7 +98,8 @@ namespace lab1
                 if(last.HasValue)
                 {
                     double currentMass = GetMassTrapeze(last.Value, pair);
-                    massMoment += GetEquilibriumPointTrapeze(last.Value, pair) * currentMass;
+                    double currentEquilibriumPoint = GetEquilibriumPointTrapeze(last.Value, pair);
+                    massMoment += currentEquilibriumPoint * currentMass;
                     mass += currentMass;
                 }
                 last = pair;
@@ -177,33 +178,9 @@ t = (min + max)/2
             {
                 double h0 = left.Value.Percent - h;
                 double h1 = right.Value.Percent - h;
-                return h0 > h1 ? h0 / (min-max) : h1 / (max - min);
+                return h0 > h1 ? h0 / (max - min) : h1 / (max - min);
             }
         }
-
-        private double GetEquilibriumPointTriangle(double x0, double x1)
-        {
-            /*
-            integral(min...t, k*y) = integral(t...max, k*y)
-
-            minus(min...t, k*y^2/2) = minus(t...max, k*y^2/2)
-
-            k*t^2/2 - k*min^2/2 = k*max^2/2 - k*t^2/2
-            x = t^2
-            k*x/2 - k*min^2/2 = k*max^2/2 - k*x/2
-            k*x/2 + k*x/2 - k*min^2/2 = k*max^2/2
-            k*x/2 + k*x/2 = k*max^2/2 + k*min^2/2
-            x * (k/2 + k/2) = k*(max^2 + min^2)/2
-            x * k = k*(max^2 + min^2)/2
-            x = k/k*(max^2 + min^2)/2
-            x = (max^2 + min^2)/2
-            t = sqrt((max^2 + min^2)/2)
-            */
-            return Math.Sqrt((x1*x1 + x0*x0)/2);
-        }
-
-        private double GetEquilibriumPointRectangle(double x0, double x1)
-            => (x0 + x1) / 2;
 
         private double GetMassTrapeze(KeyValuePair<CharacteristicValue, TermaValue> left, KeyValuePair<CharacteristicValue, TermaValue> right)
         {

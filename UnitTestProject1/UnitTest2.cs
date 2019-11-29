@@ -70,7 +70,7 @@ namespace UnitTestProject1
             Assert.AreEqual(expect.Length, outputCollection.Count);
             CharacteristicValue output = outputCollection.GetFirst();
             Assert.AreEqual(expect[0].Characteristic, output.Characteristic);
-            Assert.AreEqual(expect[0].Value, output.Value, 0.01);
+            Assert.AreEqual(expect[0].Value, output.Value, 0.1);
 
             Console.WriteLine(state);
         }
