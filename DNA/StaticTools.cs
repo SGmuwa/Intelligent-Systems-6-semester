@@ -106,6 +106,14 @@ namespace DNA
 
         public static double[] GetDoubles(this byte[] bytes)
         {
+            if(bytes.Length % sizeof(double) != 0)
+            {
+                byte[] bytesNew = new byte[bytes.Length + sizeof(double) - bytes.Length % sizeof(double)];
+                long difference = bytesNew.LongLength - bytes.LongLength;
+                for(long i = 0; i < bytes.LongLength; i++)
+                    bytesNew[i] = bytes[i];
+                bytes = bytesNew;
+            }
             return Enumerable.Range(0, bytes.Length / sizeof(double))
                 .Select(offset => BitConverter.ToDouble(bytes, offset * sizeof(double)))
                 .ToArray();

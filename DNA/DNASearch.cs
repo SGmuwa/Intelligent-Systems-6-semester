@@ -46,7 +46,9 @@ namespace DNA
         {
             int size = DNAs[0].GetLength(0) * 8;
             for(long i = beginGenerate; i < beginGenerate + count; i++)
+            {
                 DNAs[i] = random.NextBigInteger(size, true).ToByteArray().GetDoubles();
+            }
         }
 
         private void GenerateDNAsMerge(double[][] DNAs, long beginGenerate, long count)
@@ -67,6 +69,7 @@ namespace DNA
                 BigInteger needRandom = DNA1 ^ DNA2;
                 BigInteger randomNumber = needRandom & random.NextBigInteger(needRandom.GetBitLength(), true);
                 BigInteger result = DNA1 & DNA2 | randomNumber;
+                #warning Риск 1 / 2^64, что строчка внизу сработает плохо:
                 DNAs[indexPaste] = result.ToByteArray(true).GetDoubles();
             }
         }
@@ -104,7 +107,7 @@ namespace DNA
                 top[i] = i;
             }
             long minmaxIndexTop = SearchMinmax();
-            for (; i < results.LongLength; i++)
+            for (; i < top.LongLength; i++)
             {
                 if (isNeedMax && results[top[minmaxIndexTop]] < results[top[i]]
                 || !isNeedMax && results[top[minmaxIndexTop]] > results[top[i]])
