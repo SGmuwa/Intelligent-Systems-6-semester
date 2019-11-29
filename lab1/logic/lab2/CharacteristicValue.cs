@@ -57,6 +57,18 @@ namespace lab1.logic.lab2
             return Value.CompareTo(other);
         }
 
+        public override bool Equals(object obj)
+        {
+            return obj is CharacteristicValue other &&
+                   Characteristic.Equals(other.Characteristic) &&
+                   Value == other.Value;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Value);
+        }
+
         /// <summary>
         /// Получить значения терм в заданной <see cref="Value"/> точке.
         /// </summary>
@@ -65,5 +77,7 @@ namespace lab1.logic.lab2
         {
             return Characteristic.TermsValuesAt(Value);
         }
+
+        
     }
 }

@@ -154,5 +154,19 @@ namespace lab1
 
         IEnumerator IEnumerable.GetEnumerator() =>
             Terms.GetEnumerator();
+
+        public override bool Equals(object obj)
+        {
+            return obj is Characteristic characteristic &&
+                   //EqualityComparer<List<Terma>>.Default.Equals(Terms, characteristic.Terms) &&
+                   Name == characteristic.Name &&
+                   Min == characteristic.Min &&
+                   Max == characteristic.Max;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Name, Min, Max);
+        }
     }
 }

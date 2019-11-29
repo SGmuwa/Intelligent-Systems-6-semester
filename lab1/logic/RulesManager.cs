@@ -105,14 +105,14 @@ namespace lab1
             }
             if(!last.HasValue)
                 return null;
-            return new CharacteristicValue(last.Value.Key.Characteristic, massMoment / mass);
+            return new CharacteristicValue(area.Characteristic, massMoment / mass);
         }
 
         private double GetEquilibriumPointTrapeze(KeyValuePair<CharacteristicValue, TermaValue> left, KeyValuePair<CharacteristicValue, TermaValue> right)
         {
             double first = GetEquilibriumPointTriangle(left.Key.Value, right.Key.Value);
             double second = GetEquilibriumPointRectangle(left.Key.Value, right.Key.Value);
-            return first + second;
+            return GetEquilibriumPointRectangle(first, second);
         }
 
         private double GetEquilibriumPointTriangle(double x0, double x1)
@@ -167,31 +167,33 @@ namespace lab1
                 {
                     if(areaLeft == areaRight)
                         continue;
-                    if(areaLeft.Keys.First().Characteristic == areaRight.Keys.First().Characteristic)
+                    if(areaLeft.Characteristic == areaRight.Characteristic)
                     {
                         SelectedAreaOfTerma editedArea = new SelectedAreaOfTerma(areaLeft.Values.First().Terma);
                         bool? PreviousLeftBiggerRight = null;
                         KeyValuePair<CharacteristicValue, TermaValue>? previousLeft = null;
-                        foreach(KeyValuePair<CharacteristicValue, TermaValue> point in areaLeft)
+                        foreach(KeyValuePair<CharacteristicValue, TermaValue> leftPoint in areaLeft)
                         {
-                            double valueLeft = point.Value.Percent;
-                            double valueRight = areaRight.GetPercentAt(point.Key.Value);
+                            double valueLeft = leftPoint.Value.Percent;
+                            double valueRight = areaRight.GetPercentAt(leftPoint.Key.Value);
                             if(valueLeft >= valueRight)
                             { // Левый хороший, надо его оставить.
                                 if(PreviousLeftBiggerRight.HasValue && !PreviousLeftBiggerRight.Value)
                                 { // Хотя раньше он был плохим
-                                    var rightPairPrevious = areaRight.GetPrevious(point.Key.Value);
-                                    var rightPairNext = areaRight.GetNext(point.Key.Value);
-                                    if(rightPairPrevious.Key.Value == rightPairNext.Key.Value)
+                                    List<KeyValuePair<CharacteristicValue, TermaValue>> rightPoints = areaRight.SubAndOnePointBeyondEachBorder(previousLeft.Value.Key, leftPoint.Key);
+                                    KeyValuePair<CharacteristicValue, TermaValue>? previousRightPoint = null;
+                                    foreach(var rightPoint in rightPoints)
                                     {
-                                        rightPairPrevious = new KeyValuePair<CharacteristicValue, TermaValue>(
-                                            new CharacteristicValue(rightPairPrevious.Key.Characteristic, rightPairPrevious.Key.Value - 1),
-                                            rightPairPrevious.Value
-                                        );
+                                        if(previousRightPoint.HasValue)
+                                        {
+                                            var crossingPoint = GetIntersectionPoint(previousLeft.Value, leftPoint, previousRightPoint.Value, rightPoint);
+                                            if(crossingPoint.HasValue)
+                                                editedArea.Add(crossingPoint.Value);
+                                        }
+                                        previousRightPoint = rightPoint;
                                     }
-                                    editedArea.Add(GetIntersectionPoint(previousLeft.Value, point, rightPairPrevious, rightPairNext));
                                 }
-                                editedArea.Add(point.Key, point.Value);
+                                editedArea.Add(leftPoint.Key, leftPoint.Value);
                                 PreviousLeftBiggerRight = true;
                             }
                             else
@@ -199,11 +201,22 @@ namespace lab1
                                 if(PreviousLeftBiggerRight.HasValue && PreviousLeftBiggerRight.Value)
                                 { // Хотя раньше он был хорошим
                                     // Найдём, когда он стал плохим.
-                                    editedArea.Add(GetIntersectionPoint(previousLeft.Value, point, areaRight.GetPrevious(point.Key.Value), areaRight.GetNext(point.Key.Value)));
+                                    List<KeyValuePair<CharacteristicValue, TermaValue>> rightPoints = areaRight.SubAndOnePointBeyondEachBorder(previousLeft.Value.Key, leftPoint.Key);
+                                    KeyValuePair<CharacteristicValue, TermaValue>? previousRightPoint = null;
+                                    foreach(var rightPoint in rightPoints)
+                                    {
+                                        if(previousRightPoint.HasValue)
+                                        {
+                                            var crossingPoint = GetIntersectionPoint(previousLeft.Value, leftPoint, previousRightPoint.Value, rightPoint);
+                                            if(crossingPoint.HasValue)
+                                                editedArea.Add(crossingPoint.Value);
+                                        }
+                                        previousRightPoint = rightPoint;
+                                    }
                                 }
                                 PreviousLeftBiggerRight = false;
                             }
-                            previousLeft = point;
+                            previousLeft = leftPoint;
                         }
                         output.Add(editedArea);
                     }
@@ -216,6 +229,7 @@ namespace lab1
             return output;
         }
 
+        
         /// <summary>
         /// Пытается объединить выделения до одной полосы.
         /// </summary>
@@ -223,18 +237,30 @@ namespace lab1
         /// <returns>Объединённые выделения.</returns>
         private ICollection<SelectedAreaOfTerma> Merge(IEnumerable<SelectedAreaOfTerma> areas)
         {
-            Dictionary<Characteristic, SelectedAreaOfTerma> output = new Dictionary<Characteristic, SelectedAreaOfTerma>();
-            foreach(var area in areas)
+            Dictionary<Characteristic, SelectedAreaOfTerma> outputDictionary = new Dictionary<Characteristic, SelectedAreaOfTerma>();
+            foreach(SelectedAreaOfTerma area in areas)
             {
-
+                if(!outputDictionary.ContainsKey(area.Characteristic))
+                    outputDictionary[area.Characteristic] = area;
+                else
+                {
+                    var toMerge = outputDictionary[area.Characteristic];
+                    SelectedAreaOfTerma mergeResult = new SelectedAreaOfTerma(new Terma("unknown", area.Characteristic));
+                    foreach(var point in toMerge)
+                        mergeResult.Add(point.Key.Value, point.Value.Percent);
+                    foreach(var point in area)
+                        if(!mergeResult.ContainsKey(point.Key))
+                            mergeResult.Add(point.Key.Value, point.Value.Percent);
+                    outputDictionary[area.Characteristic] = mergeResult;
+                }
             }
-            throw new NotImplementedException();
+            return outputDictionary.Values;
         }
 
         /// <summary>
         /// Ищет пересечение между прямыми A --- B и C --- D.
         /// </summary>
-        private KeyValuePair<CharacteristicValue, TermaValue> GetIntersectionPoint(
+        private KeyValuePair<CharacteristicValue, TermaValue>? GetIntersectionPoint(
             KeyValuePair<CharacteristicValue, TermaValue> A,
             KeyValuePair<CharacteristicValue, TermaValue> B,
             KeyValuePair<CharacteristicValue, TermaValue> C,
@@ -246,10 +272,10 @@ namespace lab1
                 C.Key.Value, C.Value.Percent,
                 D.Key.Value, D.Value.Percent
             );
-            return new KeyValuePair<CharacteristicValue, TermaValue>(
+            return double.IsFinite(answer.Item1) && double.IsFinite(answer.Item2) ? new KeyValuePair<CharacteristicValue, TermaValue>(
                 new CharacteristicValue(A.Key.Characteristic, answer.Item1),
                 new TermaValue(A.Value.Terma, answer.Item2)
-            );
+            ) : new KeyValuePair<CharacteristicValue, TermaValue>?();
         }
 
         private (double, double) GetIntersectionPoint(double xa, double ya, double xb, double yb, double xc, double yc, double xd, double yd)

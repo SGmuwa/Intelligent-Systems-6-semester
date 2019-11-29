@@ -15,10 +15,27 @@ namespace lab1.logic.lab2
 
         public Terma Terma { get; }
 
-        public SelectedAreaOfTerma(Terma terma)
-            => this.Terma = terma;
+        public Characteristic Characteristic => Terma.Parent;
 
-        public TermaValue this[CharacteristicValue key] { get => points[key]; set => points[key] = value; }
+        public SelectedAreaOfTerma(Terma terma)
+            => Terma = terma;
+
+        public TermaValue this[CharacteristicValue key]
+        {
+            get
+            {
+                if(!Characteristic.Equals(key.Characteristic))
+                    throw new ArgumentException();
+                return points[key];
+            }
+
+            set
+            {
+                if(!Characteristic.Equals(key.Characteristic) || !Terma.Equals(value.Terma))
+                    throw new ArgumentException();
+                points[key] = value;
+            }
+        }
 
         public ICollection<CharacteristicValue> Keys => points.Keys;
 
@@ -32,19 +49,19 @@ namespace lab1.logic.lab2
         {
             if (!value.Terma.Equals(Terma))
                 throw new ArgumentException();
-            if (!key.Characteristic.Equals(Terma.Parent))
+            if (!key.Characteristic.Equals(Characteristic))
                 throw new ArgumentException();
             points.Add(key, value);
         }
 
-        public void Add(double charasteristicValue, double termaValue)
+        public void Add(double characteristicValue, double termaValue)
         {
-            points.Add(new CharacteristicValue(Terma.Parent, charasteristicValue), new TermaValue(Terma, termaValue));
+            points.Add(new CharacteristicValue(Terma.Parent, characteristicValue), new TermaValue(Terma, termaValue));
         }
 
         public void Add(KeyValuePair<CharacteristicValue, TermaValue> item)
         {
-            if (!item.Value.Terma.Equals(Terma))
+            if (!Terma.Equals(item.Value.Terma) || !Characteristic.Equals(item.Key.Characteristic))
                 throw new ArgumentException();
             ((IDictionary<CharacteristicValue, TermaValue>)points).Add(item);
         }
