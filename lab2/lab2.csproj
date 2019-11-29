@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
-    <ProjectGuid>{0923C363-B6B5-4489-9641-586FD210CB74}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-  </PropertyGroup>
-</Project>
