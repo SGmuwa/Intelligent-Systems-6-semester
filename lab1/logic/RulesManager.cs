@@ -110,9 +110,75 @@ namespace lab1
 
         private double GetEquilibriumPointTrapeze(KeyValuePair<CharacteristicValue, TermaValue> left, KeyValuePair<CharacteristicValue, TermaValue> right)
         {
-            double first = GetEquilibriumPointTriangle(left.Key.Value, right.Key.Value);
-            double second = GetEquilibriumPointRectangle(left.Key.Value, right.Key.Value);
-            return GetEquilibriumPointRectangle(first, second);
+            /*
+Треугольник
+integral(min...t, k*y) = integral(t...max, k*y)
+minus(min...t, k*y^2/2) = minus(t...max, k*y^2/2)
+
+k*t^2/2 - k*min^2/2 = k*max^2/2 - k*t^2/2
+x = t^2
+k*x/2 - k*min^2/2 = k*max^2/2 - k*x/2
+k*x/2 + k*x/2 - k*min^2/2 = k*max^2/2
+k*x/2 + k*x/2 = k*max^2/2 + k*min^2/2
+x * (k/2 + k/2) = k*(max^2 + min^2)/2
+x * k = k*(max^2 + min^2)/2
+x = k/k*(max^2 + min^2)/2
+x = (max^2 + min^2)/2
+t = sqrt((max^2 + min^2)/2)
+Трапеция
+integral(min...t, k*y + h) = integral(t...max, k*y + h)
+minus(min...t, k*y^2/2 + h*y) = minus(t...max, k*y^2/2 + h*y)
+
+k*t^2/2 + h*t - k*min^2/2 - h*min = k*max^2/2 + h*max - k*t^2/2 - h*t
+k*t^2/2 + 2*h*t - k*min^2/2 - h*min - k*max^2/2 - h*max + k*t^2/2 = 0
+k*t^2 + 2*h*t - k*min^2/2 - h*min - k*max^2/2 - h*max = 0
+k*t^2 + 2*h*t - k*(min^2+max^2)/2 - h*(min + max) = 0
+a = k
+b = 2*h
+c = -k*(min^2+max^2)/2 - h*(min + max)
+t = (-b + sqrt(b^2 - 4*a*c)) / (2*a)
+t = (-(2*h) + sqrt((2*h)^2 - 4*k*(-k*(min^2+max^2)/2 - h*(min + max)))) / (2*k)
+t = (-(2*h) + sqrt(4*h^2 - 4*k*(-k*(min^2+max^2)/2 - h*(min + max)))) / (2*k)
+t = (-(2*h) + 2*sqrt(h^2 - k*(-k*(min^2+max^2)/2 - h*(min + max)))) / (2*k)
+t = (-(h) + sqrt(h^2 - k*(-k*(min^2+max^2)/2 - h*(min + max)))) / (k)
+t = (sqrt(h^2 - k*(-k*(min^2+max^2)/2 - h*(min + max))) - h) / k
+t = (sqrt(h^2 + k*(k*(min^2+max^2)/2 + h*(min + max))) - h) / k
+h = 0 (Проверка)
+t = (sqrt(0^2 + k*(k*(min^2+max^2)/2 + 0*(min + max))) - 0) / k
+t = sqrt(k*(k*(min^2+max^2)/2)) / k
+t = sqrt(((min^2+max^2)/2))
+t = sqrt((min^2+max^2)/2)
+Проверка два
+k*t^2 + 2*h*t - k*(min^2+max^2)/2 - h*(min + max) = 0
+k = 0
+0*t^2 + 2*h*t - 0*(min^2+max^2)/2 - h*(min + max) = 0
+2*h*t - h*(min + max) = 0
+t = (min + max)/2
+
+            */
+            double min = left.Key.Value;
+            double max = right.Key.Value;
+            double h = GetH();
+            double k = GetK();
+            if(k == 0) // Предотвращение деления на ноль.
+                return (min + max) / 2;
+            if(h == 0) // Оптимизация
+                return Math.Sqrt((min*min + max*max)/2);
+            return (Math.Sqrt(h*h + k*(k*(min*min + max*max)/2 + h*(min + max))) - h) / k;
+
+            double GetH()
+            {
+                double h0 = left.Value.Percent;
+                double h1 = right.Value.Percent;
+                return h0 < h1 ? h0 : h1;
+            }
+
+            double GetK()
+            {
+                double h0 = left.Value.Percent - h;
+                double h1 = right.Value.Percent - h;
+                return h0 > h1 ? h0 / (min-max) : h1 / (max - min);
+            }
         }
 
         private double GetEquilibriumPointTriangle(double x0, double x1)
