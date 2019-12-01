@@ -22,9 +22,9 @@ namespace DNA
                 throw new ArgumentNullException(nameof(func));
             if (countArgs <= 0)
                 return new double[0];
-            double[][] DNAs = CreateDNAs(1024 * 512, countArgs);
+            double[][] DNAs = CreateDNAs(1024 * 2, countArgs);
             double[] results = new double[DNAs.LongLength];
-            long[] top = new long[10];
+            long[] top = new long[3];
             while (true)
             {
                 Calculate(func, DNAs, results);
@@ -37,11 +37,22 @@ namespace DNA
                 long countToMerge = (DNAs.LongLength - top.LongLength) * 1 / 2;
                 long countToRandom = DNAs.LongLength - countToMerge - top.LongLength;
                 Parallel.Invoke(
-                    () => GenerateDNAsMerge(DNAs, top.LongLength, countToMerge),
+                    () => {
+                        GenerateDNAsMerge(DNAs, top.LongLength, countToMerge);
+                        DNAMutation(DNAs, top.LongLength, countToMerge);
+                    },
                     () => GenerateDNAsRandom(DNAs, top.LongLength + countToMerge, countToRandom)
                 );
             }
             return DNAs[top[0]];
+        }
+
+        private void DNAMutation(double[][] DNAs, long begin, long count)
+        {
+            int countBits = DNAs[0].GetLength(0) * sizeof(double) * 8;
+            Parallel.For(begin, begin + count, i => {
+                DNAs[i] = (new BigInteger(DNAs[i].GetBytes(), true) ^ (random.NextBigInteger(countBits, true) & random.NextBigInteger(countBits, true) & new BigInteger(DNAs[i].GetBytes(), true))).ToByteArray().Incrise(countBits / 8).GetDoubles();
+            });
         }
 
         private void GenerateDNAsRandom(double[][] DNAs, long beginGenerate, long count)
