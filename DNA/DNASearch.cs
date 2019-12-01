@@ -2,6 +2,7 @@ using System;
 using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace DNA
 {
@@ -30,7 +31,7 @@ namespace DNA
                 Calculate(func, DNAs, results);
                 SearchTop(results, top, isNeedMax);
                 SortTop(results, top, isNeedMax);
-                debug?.Invoke($"{string.Join("; ", results[top[0]])} = {results[top[0]]}");
+                debug?.Invoke($"{string.Join("; ", DNAs[top[0]])} = {results[top[0]]}");
                 if (token.IsCancellationRequested)
                     break;
                 MoveTopToBegin(DNAs, top);
@@ -74,7 +75,11 @@ namespace DNA
         }
 
         private void SortTop(double[] results, long[] top, bool isNeedMax)
-            => Array.Sort(top, (l, r) => results[l].CompareTo(results[r]) * (isNeedMax ? 1 : -1));
+        {
+            string a = $"{string.Join(' ', Enumerable.Select(top, t => results[t]))}";
+            Array.Sort(top, (l, r) => results[l].CompareTo(results[r]) * (isNeedMax ? -1 : 1));
+            string b = $"{string.Join(' ', Enumerable.Select(top, t => results[t]))}";
+        }
 
         private void MoveTopToBegin(double[][] DNAs, long[] top)
         {
@@ -106,10 +111,10 @@ namespace DNA
                 top[i] = i;
             }
             long minmaxIndexTop = SearchMinmax();
-            for (; i < top.LongLength; i++)
+            for (; i < results.LongLength; i++)
             {
-                if (isNeedMax && results[top[minmaxIndexTop]] < results[top[i]]
-                || !isNeedMax && results[top[minmaxIndexTop]] > results[top[i]])
+                if (isNeedMax && results[top[minmaxIndexTop]] < results[i]
+                || !isNeedMax && results[top[minmaxIndexTop]] > results[i])
                 {
                     top[minmaxIndexTop] = i;
                     minmaxIndexTop = SearchMinmax();
