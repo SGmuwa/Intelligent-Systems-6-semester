@@ -69,8 +69,7 @@ namespace DNA
                 BigInteger needRandom = DNA1 ^ DNA2;
                 BigInteger randomNumber = needRandom & random.NextBigInteger(needRandom.GetBitLength(), true);
                 BigInteger result = DNA1 & DNA2 | randomNumber;
-                #warning Риск 1 / 2^64, что строчка внизу сработает плохо:
-                DNAs[indexPaste] = result.ToByteArray(true).GetDoubles();
+                DNAs[indexPaste] = result.ToByteArray(true).Incrise(DNAs[index1].LongLength).GetDoubles();
             }
         }
 

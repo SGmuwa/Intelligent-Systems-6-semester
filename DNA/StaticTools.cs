@@ -138,5 +138,25 @@ namespace DNA
             } while((that >>= 1) != 0);
             return bitLength;
         }
+
+        /// <summary>
+        /// Изменяет размер массива под заданных размер.
+        /// В конце заполняется нулями.
+        /// </summary>
+        /// <param name="array">Исходный массив.</param>
+        /// <param name="sizeMust">Какого он должен быть размера.</param>
+        /// <returns>
+        /// Новый массив из исходного размера sizeMust.
+        /// Либо возвращает исходный массив, если он нужного размера.
+        /// </returns>
+        public static byte[] Incrise(this byte[] array, long sizeMust)
+        {
+            if(array.LongLength == sizeMust)
+                return array;
+            byte[] output = new byte[sizeMust];
+            for(long i = 0; i < output.LongLength && i < array.LongLength; i++)
+                output[i] = array[i];
+            return output;
+        }
     }
 }
