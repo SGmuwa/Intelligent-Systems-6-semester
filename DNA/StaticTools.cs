@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
 using System.Numerics;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace DNA
 {
@@ -84,12 +86,16 @@ namespace DNA
 
         public static bool Contains<T>(this Array array, T search)
         {
-            foreach(var o in array)
-            {
-                if(o.Equals(search))
-                    return true;
-            }
-            return false;
+            using CancellationTokenSource tSource = new CancellationTokenSource();
+            bool output = false;
+            Parallel.For(0, array.Length, new ParallelOptions() {CancellationToken = tSource.Token}, i => {
+                if(array.GetValue(i).Equals(search))
+                {
+                    output = true;
+                    tSource.Cancel();
+                }
+            });
+            return output;
         }
 
         public static void Swap(this Array array, long indexA, long indexB)

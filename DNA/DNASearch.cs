@@ -2,7 +2,6 @@ using System;
 using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
 
 namespace DNA
 {
@@ -12,7 +11,7 @@ namespace DNA
 
         private DNASearch() { }
 
-        private readonly static Random random = new Random();
+        private readonly static Random random = new RandomThreadSafe();
 
         public static double[] Search(Func<double[], double> func, ushort countArgs, CancellationToken token, bool isNeedMax, Action<string> debug = null)
             => Instance.Search(func, countArgs, isNeedMax, token, debug);
@@ -23,7 +22,7 @@ namespace DNA
                 throw new ArgumentNullException(nameof(func));
             if (countArgs <= 0)
                 return new double[0];
-            double[][] DNAs = CreateDNAs(1024, countArgs);
+            double[][] DNAs = CreateDNAs(1024 * 512, countArgs);
             double[] results = new double[DNAs.LongLength];
             long[] top = new long[10];
             while (true)
@@ -35,29 +34,29 @@ namespace DNA
                 if (token.IsCancellationRequested)
                     break;
                 MoveTopToBegin(DNAs, top);
-                long countToMerge = (DNAs.LongLength - top.LongLength) * 3 / 4;
+                long countToMerge = (DNAs.LongLength - top.LongLength) * 1 / 2;
                 long countToRandom = DNAs.LongLength - countToMerge - top.LongLength;
-                GenerateDNAsMerge(DNAs, top.LongLength, countToMerge);
-                GenerateDNAsRandom(DNAs, top.LongLength + countToMerge, countToRandom);
+                Parallel.Invoke(
+                    () => GenerateDNAsMerge(DNAs, top.LongLength, countToMerge),
+                    () => GenerateDNAsRandom(DNAs, top.LongLength + countToMerge, countToRandom)
+                );
             }
             return DNAs[top[0]];
         }
 
         private void GenerateDNAsRandom(double[][] DNAs, long beginGenerate, long count)
         {
-            int size = DNAs[0].GetLength(0) * 8;
-            for(long i = beginGenerate; i < beginGenerate + count; i++)
-            {
-                DNAs[i] = random.NextBigInteger(size, true).ToByteArray().GetDoubles();
-            }
+            int countBits = DNAs[0].GetLength(0) * sizeof(double) * 8;
+            Parallel.For(beginGenerate, beginGenerate + count, i => {
+                DNAs[i] = random.NextBigInteger(countBits, true).ToByteArray().Incrise(countBits / 8).GetDoubles();
+            });
         }
 
         private void GenerateDNAsMerge(double[][] DNAs, long beginGenerate, long count)
         {
-            for(long i = beginGenerate; i < beginGenerate + count; i++)
-            {
+            Parallel.For(beginGenerate, beginGenerate + count, i => {
                 GenerateDNAMerge(DNAs, i, beginGenerate);
-            }
+            });
 
             static void GenerateDNAMerge(double[][] DNAs, long indexPaste, long countTop)
             {
@@ -76,42 +75,31 @@ namespace DNA
 
         private void SortTop(double[] results, long[] top, bool isNeedMax)
         {
-            string a = $"{string.Join(' ', Enumerable.Select(top, t => results[t]))}";
             Array.Sort(top, (l, r) => results[l].CompareTo(results[r]) * (isNeedMax ? -1 : 1));
-            string b = $"{string.Join(' ', Enumerable.Select(top, t => results[t]))}";
         }
 
         private void MoveTopToBegin(double[][] DNAs, long[] top)
         {
-            MoveToBuffer();
+            double[][] source = (double[][])DNAs.Clone();
             MoveToBegin();
-
-            void MoveToBuffer()
-            {
-                long startSearch = top.LongLength;
-                for(long i = 0; i < top.LongLength; startSearch++)
-                {
-                    if(!top.Contains(startSearch))
-                        DNAs.Swap(top[i++], startSearch);
-                }
-            }
 
             void MoveToBegin()
             {
-                for(long i = 0; i < top.LongLength; i++)
-                    DNAs.Swap(i, top[i]);
+                Parallel.For(0, top.Length, i => {
+                    DNAs[i] = source[top[i]];
+                    top[i] = i;
+                });
             }
         }
 
         private void SearchTop(double[] results, long[] top, bool isNeedMax)
         {
-            long i = 0;
-            for (; i < top.LongLength; i++)
-            {
+            
+            Parallel.For(0, top.Length, i => {
                 top[i] = i;
-            }
+            });
             long minmaxIndexTop = SearchMinmax();
-            for (; i < results.LongLength; i++)
+            for (long i = top.LongLength; i < results.LongLength; i++)
             {
                 if (isNeedMax && results[top[minmaxIndexTop]] < results[i]
                 || !isNeedMax && results[top[minmaxIndexTop]] > results[i])

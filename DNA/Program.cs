@@ -10,12 +10,12 @@ namespace DNA
         static void Main()
         {
             Console.WriteLine("Введите функцию. Например: f(x, y) = -(x^2 + y^2)");
-            Function f = new Function(Console.ReadLine());
-            Console.WriteLine($"Количество аргументов: {f.getArgumentsNumber()}");
-            bool isNeedMax = GetBool("True - поиск максимума. False - поиск минимума.");
-            CancellationTokenSource tokenSource = new CancellationTokenSource();
+            //Function f = new Function(Console.ReadLine());
+            //Console.WriteLine($"Количество аргументов: {f.getArgumentsNumber()}");
+            bool isNeedMax = true;//GetBool("True - поиск максимума. False - поиск минимума.");
+            using CancellationTokenSource tokenSource = new CancellationTokenSource();
             double[] result = null;
-            Thread thr = new Thread(_ => result = DNASearch.Search(FunctionMaker(f), (ushort)f.getArgumentsNumber(), tokenSource.Token, isNeedMax, DNAWriter));
+            Thread thr = new Thread(_ => result = DNASearch.Search((x) => -((x[0]+213)*(x[0]+213)), 1, tokenSource.Token, isNeedMax, DNAWriter));
             Console.WriteLine("Нажмите на любую кнопку, чтобы остановить программу...");
             thr.Start();
             Console.ReadKey(true);
