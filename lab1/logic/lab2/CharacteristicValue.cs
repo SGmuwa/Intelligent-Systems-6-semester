@@ -42,8 +42,8 @@ namespace lab1.logic.lab2
         {
             if (obj is double || obj is float)
                 return CompareTo((double)obj);
-            if (obj is CharacteristicValue)
-                return CompareTo((CharacteristicValue)obj);
+            if (obj is CharacteristicValue value)
+                return CompareTo(value);
             throw new ArgumentException();
         }
 

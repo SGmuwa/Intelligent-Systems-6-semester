@@ -6,8 +6,8 @@ namespace lab1
 {
     public class Rule
     {
-        private Terma termaIf;
-        private Terma termaThen;
+        private readonly Terma termaIf;
+        private readonly Terma termaThen;
 
         public Rule(Terma termaIf, Terma termaThen)
         {
@@ -81,7 +81,7 @@ namespace lab1
         }
 
         /// <summary>
-        /// Возвращает then если if_ и Termaif совпадают.
+        /// Возвращает then если if_ и TermaIf совпадают.
         /// </summary>
         /// <param name="if_">Причина.</param>
         /// <returns>Следствие, если есть. Иначе - пустота.</returns>

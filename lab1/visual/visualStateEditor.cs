@@ -73,8 +73,10 @@ namespace lab1.visual
                 catch(Exception e)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
+                    Console.BackgroundColor = ConsoleColor.Black;
                     Console.WriteLine(e.Message);
                     Console.ForegroundColor = defaultColorF;
+                    Console.BackgroundColor = defaultColorB;
                 }
             } while (true);
         }

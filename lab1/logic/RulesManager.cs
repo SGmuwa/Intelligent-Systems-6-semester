@@ -52,13 +52,11 @@ namespace lab1
         /// <returns>Значения then характеристик из заданных правил.</returns>
         public ICollection<CharacteristicValue> Call(MethodType typeMethod, CharacteristicValue charactValue)
         {
-            switch(typeMethod)
+            return typeMethod switch
             {
-                case MethodType.Aggregation:
-                    return Aggregation(charactValue);
-                default:
-                    throw new NotImplementedException();
-            }
+                MethodType.Aggregation => Aggregation(charactValue),
+                _ => throw new NotImplementedException(),
+            };
         }
 
         /// <summary>
@@ -328,20 +326,6 @@ t = (min + max)/2
             double x = xc+(xd-xc)*t2;
             double y = yc+(yd-yc)*t2;
             return (x, y);
-        }
-
-        private string DebugAreas(IList<SelectedAreaOfTerma> areas)
-        {
-            StringBuilder debug = new StringBuilder();
-            int p = -1;
-            foreach(var area in areas)
-            {
-                p++;
-                foreach(var point in area)
-                    debug.Append($"({point.Key.Value};{point.Value.Percent}) ");
-                debug.Append("\n\n");
-            }
-            return debug.ToString();
         }
 
         /// <summary>
