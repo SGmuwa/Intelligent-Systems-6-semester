@@ -12,10 +12,11 @@
       <Project>{357ce44a-3882-4a76-9148-09c808217fe8}</Project>
       <Name>lab1</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\DNA\DNA.csproj">
       <Name>DNA</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NeuralNetworkWithoutTraining\NeuralNetworkWithoutTraining.csproj">
+      <Name>NeuralNetworkWithoutTraining</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

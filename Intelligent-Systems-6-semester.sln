@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DNA", "DNA\DNA.csproj", "{D1A68D72-7D43-49B9-82EA-D3DA7E8BF63E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralNetworkWithoutTraining", "NeuralNetworkWithoutTraining\NeuralNetworkWithoutTraining.csproj", "{E8FD4413-9997-441F-9E13-9DD7B85E5AD5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,18 @@ Global
 		{D1A68D72-7D43-49B9-82EA-D3DA7E8BF63E}.Release|x64.Build.0 = Release|Any CPU
 		{D1A68D72-7D43-49B9-82EA-D3DA7E8BF63E}.Release|x86.ActiveCfg = Release|Any CPU
 		{D1A68D72-7D43-49B9-82EA-D3DA7E8BF63E}.Release|x86.Build.0 = Release|Any CPU
+		{E8FD4413-9997-441F-9E13-9DD7B85E5AD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8FD4413-9997-441F-9E13-9DD7B85E5AD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8FD4413-9997-441F-9E13-9DD7B85E5AD5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E8FD4413-9997-441F-9E13-9DD7B85E5AD5}.Debug|x64.Build.0 = Debug|Any CPU
+		{E8FD4413-9997-441F-9E13-9DD7B85E5AD5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E8FD4413-9997-441F-9E13-9DD7B85E5AD5}.Debug|x86.Build.0 = Debug|Any CPU
+		{E8FD4413-9997-441F-9E13-9DD7B85E5AD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8FD4413-9997-441F-9E13-9DD7B85E5AD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8FD4413-9997-441F-9E13-9DD7B85E5AD5}.Release|x64.ActiveCfg = Release|Any CPU
+		{E8FD4413-9997-441F-9E13-9DD7B85E5AD5}.Release|x64.Build.0 = Release|Any CPU
+		{E8FD4413-9997-441F-9E13-9DD7B85E5AD5}.Release|x86.ActiveCfg = Release|Any CPU
+		{E8FD4413-9997-441F-9E13-9DD7B85E5AD5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
