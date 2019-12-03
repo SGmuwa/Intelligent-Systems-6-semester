@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using lab1;
 using lab1.logic.lab2;
+using System.Linq;
 
 namespace UnitTestProject1
 {
@@ -68,7 +69,7 @@ namespace UnitTestProject1
             CharacteristicValue[] expect = new CharacteristicValue[]
             { new CharacteristicValue(y, 163 / 12.1) }; // 13.47107438
             Assert.AreEqual(expect.Length, outputCollection.Count);
-            CharacteristicValue output = outputCollection.GetFirst();
+            CharacteristicValue output = outputCollection.First();
             Assert.AreEqual(expect[0].Characteristic, output.Characteristic);
             Assert.AreEqual(expect[0].Value, output.Value, 0.1);
 
@@ -76,15 +77,5 @@ namespace UnitTestProject1
         }
 
         
-    }
-    static class GetFirstInCollection
-    {
-        public static T GetFirst<T>(this IEnumerable<T> list)
-        {
-            IEnumerator<T> en = list.GetEnumerator();
-            if (!en.MoveNext())
-                throw new ArgumentException();
-            return en.Current;
-        }
     }
 }
